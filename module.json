@@ -15,6 +15,7 @@
   },
   "url": "https://github.com/Nyquisttt/nyquistt-helpers",
   "manifest": "https://github.com/Nyquisttt/nyquistt-helpers/blob/main/module.json",
+  "download": "https://github.com/Nyquisttt/nyquistt-helpers/archive/refs/tags/v0.1.2.zip",
   "scripts": [
     "scripts/app-choose.js"
   ],
