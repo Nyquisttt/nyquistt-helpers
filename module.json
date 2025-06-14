@@ -65,16 +65,6 @@
         "PLAYER": "NONE",
         "ASSISTANT": "OWNER"
       }
-    },
-    {
-      "name": "journals-private",
-      "label": "Nyquistt Helpers Journals Private",
-      "path": "packs/journals-private",
-      "type": "JournalEntry",
-      "ownership": {
-        "PLAYER": "NONE",
-        "ASSISTANT": "OWNER"
-      }
     }
   ],
   "packFolders": [
