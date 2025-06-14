@@ -1,0 +1,57 @@
+  <p>
+    Qui trovi un riepilogo rapido delle scelte fatte.
+  </p>
+    <p>Class: {{chosenClass}}, Background: {{chosenBG}}, Specie: {{chosenSpecie}}</p>
+    <p>Name: {{actorName}}</p>
+
+    <h2>Stats section</h2>
+
+    <table style="text-align: center;">
+      <tr>
+        {{#each tableStatsHeader}}
+        <th>{{this}}</th>
+        {{/each}}
+      </tr>
+      {{#each tableStats}}
+      <tr>
+        <td>{{this.stat}}</td>
+        <td>{{this.value}}</td>
+        <td>{{this.points}}</td>
+        <td>{{this.recommended}}</td>
+      </tr>
+      {{/each}}
+    </table>
+
+    <h2>Skills section</h2>
+
+    <table style="text-align: center;">
+      <tr>
+        {{#each tableSkillsHeader}}
+        <th>{{this}}</th>
+        {{/each}}
+      </tr>
+      {{#each tableSkills}}
+      <tr>
+        <td>{{this.skill}}</td>
+        <td>{{this.class}}</td>
+        <td>{{this.bg}}</td>
+      </tr>
+      {{/each}}
+    </table>
+
+<h2>Proficiencies section</h2>
+
+    <table style="text-align: center;">
+      <tr>
+        {{#each tableProfHeader}}
+        <th>{{this}}</th>
+        {{/each}}
+      </tr>
+        {{#each tableProf}}
+        <tr>
+          <td>{{this.proficiency}}</td>
+          <td>{{this.obtained}}</td>
+        </tr>
+        {{/each}}
+    </table>
+

@@ -1,0 +1,101 @@
+<div class="divCharReviewExt">
+<div class="divCharReview">
+  <p>
+    Qui trovi un riepilogo rapido delle scelte fatte.
+  </p>
+  <div class="madeChoices">
+    <p>Class: {{chosenClass}}, Background: {{chosenBG}}, Specie: {{chosenSpecie}}</p>
+  </div>
+
+  <div class="actorParams">
+    <div class="actorParamsLabel"><p>Name: </p></div>
+    <div class="actorParamsName"><input type="text" id="aName" name="aName" class="aName" value="{{actorName}}"></div>
+    <div class="actorParamsBtn">
+      <button class="nyqStoreName" data-action="myAction" type="button" id="btnStoreName"><i class="fa-solid fa-floppy-disk">Set</i></button> 
+    </div>
+  </div>
+
+  <div class="statsTableDiv">
+    <table class="statsTable">
+      <tr class="statsList">
+        <th>Stats</th>
+        {{#each statList}}
+        <th>{{this.short}}</th>
+        {{/each}}
+      </tr>
+      <tr class="statsChosable">
+        <td>Scegli le stats (points: {{pointBuyRemaining}})</td>
+        {{#each statList}}
+        <td>
+          <div class="stat-value">
+            <div class="stat-value-value">{{this.value}}</div>
+            <div class="stat-value-button-wrapper">
+              <div class="stat-value-button" data-action="myAction" data-type="increase" data-id="{{@index}}">+</div>
+              <div class="stat-value-button" data-action="myAction" data-type="decrease" data-id="{{@index}}">-</div>
+            </div>
+          </div>
+        </td>
+        {{/each}}
+      </tr>
+      <tr class="statsRecommended">
+        <td>Stats consigliate per la classe</td>
+        {{#each statsRecommended}}
+        <td>{{this}}</td>
+        {{/each}}
+      </tr>
+      <tr>
+        <td>punti stats</td>
+        {{#each statsPoints}}
+        <td>{{this}}</td>
+        {{/each}}
+      </tr>
+    </table>
+  </div>
+
+  <div class="skillsTableDiv">
+    <table class="skillsTable">
+      <tr class="skillList">
+        <th style="writing-mode: horizontal-tb;vertical-align:bottom">Skills</th>
+        {{#each skillList}}
+        <th>{{this.name}}</th>
+        {{/each}}
+      </tr>
+      <tr class="skillSelectableClass">
+        <td>Check {{classChoices}}</td>
+        {{#each skillChecks}}
+        <td>{{{this}}}</td>
+        {{/each}}
+      </tr>
+    <tr class="skillBG">
+      <td>from background</td>
+      {{#each BGskills}}
+      <td>{{this}}</td>
+      {{/each}}
+    </tr>
+    </table>
+  </div>
+
+  <div class="armorsWeaponsProfsDiv">
+    <table class="armorsWeaponsProfsTable">
+      <tr class="armorsWeaponsProfsList">
+        <th>Proficiencies</th>
+        {{#each armorsWeaponsProfs}}
+        <th>{{this.name}}</th>
+        {{/each}}
+      </tr>
+    <tr class="armorsWeaponsProfsClass">
+      <th></th>
+      {{#each armorsWeaponsProfsClass}}
+      <td>{{this}}</td>
+      {{/each}}
+    </tr>
+    </table>
+  </div>
+
+  <div class="storeResult">
+    <button class="nyqStoreResult" data-action="myAction" type="button" id="btnStoreResult"><i class="fa-solid fa-floppy-disk">Export Actor</i></button> 
+  </div>
+
+
+</div>
+</div>

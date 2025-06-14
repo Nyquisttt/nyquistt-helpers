@@ -1,0 +1,210 @@
+/*on app creation this class is added to the .window-content element*/
+.nyqWindowContent{
+    overflow-y: scroll; /* Vertical scroll */
+}
+
+.divHeaderExt{
+    padding-bottom: 5px;
+}
+.divHeader{
+    color: #efe6d8;
+    background-color: darkslategray;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+}
+
+.footerDivExt{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.footerDiv{
+    display: grid;
+    grid-template-columns: 150px 150px 150px;
+}
+
+.divCharReviewExt{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.divCharReview{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #efe6d8;
+    background-color: darkslategray;
+    border-radius: 10px;
+}
+
+.classDiv{
+    color: #efe6d8;
+    background-color: darkslategray;
+    border-radius: 10px;
+}
+.singleClassHeader{
+    display: grid;
+    grid-template-columns: 100px 200px 50px 250px;
+}
+.singleClassHeader div{
+    background-color:azure;
+    color:black;
+    text-align: center;
+}
+.singleClass{
+    display: grid;
+    grid-template-columns: 100px 200px 50px 250px;
+}
+.singleClassName[data-selected='true']{
+    background-color: #73AD21;
+}
+.singleClassName{
+    border-radius: 5px;
+    border: 2px solid #73AD21;
+}
+.singleClass div{
+    border-radius: 5px;
+    border: 2px solid #73AD21;
+}
+.singleClassMotto{
+    border: 2px solid #73AD21;
+}
+
+.actorParams{
+    display: grid;
+    grid-template-columns: 10% 60% 30%;
+}
+.skillsTable{
+    width: 540px;
+}
+.skillsTable th{
+    /*text-orientation: mixed;*/
+    /*rotate: -90deg; */
+    /*display: inline-block;*/
+    /*display: inline;*/
+    /*width: 20px;*/
+    height: 120px;
+    padding: 0;
+    vertical-align: middle;
+    text-align: right;
+    writing-mode: vertical-rl;
+}
+
+.statsTable{
+    width: 600px;
+}
+.statsTable td,th,input[type="number"]{
+    padding: 0;
+    text-align: center;
+}
+.stat-value{
+    /*display: inline-block;*/
+    display: grid;
+    /*grid-template-columns: 20% 60% 20%;*/
+    grid-template-columns: 60% 40%;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.stat-value-button{
+  border: 1px solid #ddd;
+  margin: 0px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0;
+  background: black;
+}
+.stat-value-button:hover{
+    cursor: pointer;
+}
+.stat-value-value{
+    padding: 0;
+    font-size: 1.8rem;
+}
+
+.armorsWeaponsProfsTable{
+    width: 600px;
+}
+.armorsWeaponsProfsTable th{
+    padding: 0;
+    text-align: center;
+}
+.armorsWeaponsProfsTable td{
+    padding: 0;
+    text-align: center;
+}
+
+
+.BGdiv{
+    color: #efe6d8;
+    background-color: darkslategray;
+    border-radius: 10px;
+}
+.singleBGHeader{
+    display: grid;
+    grid-template-columns: 100px 100px 120px 100px 100px;
+}
+.singleBGHeader div{
+    background-color:azure;
+    color:black;
+    text-align: center;
+}
+.singleBG{
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px 100px;
+}
+.singleBGname[data-selected='true']{
+    background-color: #73AD21;
+}
+.singleBGname{
+    border-radius: 5px;
+    border: 2px solid #73AD21;
+}
+.singleBG div{
+    border-radius: 5px;
+    border: 2px solid #73AD21;
+}
+
+.SpeciesDiv{
+    color: #efe6d8;
+    background-color: darkslategray;
+    border-radius: 10px;
+}
+.singleSpecieHeader{
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+.singleSpecieHeader div{
+    background-color:azure;
+    color:black;
+    text-align: center;
+}
+.singleSpecie{
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+.singleSpecieName[data-selected='true']{
+    background-color: #73AD21;
+}
+.singleSpecieName{
+    border-radius: 5px;
+    border: 2px solid #73AD21;
+}
+
+.singleSpecie div{
+    border-radius: 5px;
+    border: 2px solid #73AD21;
+}
+
+.skillSelectableClass td{
+    padding: 0;
+    text-align: center;
+}
+
+.skillBG td{
+    padding: 0;
+    text-align: center;
+}
+
+div[data-hide='true']{
+    display: none;
+}

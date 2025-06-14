@@ -1,0 +1,23 @@
+{{#each listOfTables}}
+<details>
+<summary>{{this.title}}</summary>
+<table>
+    <thead>
+        <tr>
+            {{#each this.rows.[0]}}
+            <th>{{@key}}</th>
+            {{/each}}
+        </tr>
+    </thead>
+    <tbody>
+        {{#each this.rows}}
+        <tr>
+            {{#each this}}{{! each element of the object}}
+            <td>{{this}}</td>
+            {{/each}}
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</details>
+{{/each}}
