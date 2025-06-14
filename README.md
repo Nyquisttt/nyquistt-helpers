@@ -1,1 +1,1 @@
-Initial README
+This is a repo of functions and macros used as helpers in campaigns run with FoundryVTT.
