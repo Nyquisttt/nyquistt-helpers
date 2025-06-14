@@ -8,11 +8,13 @@
       "flags": {}
     }
   ],
-  "version": "0.1.1",
+  "version": "0.1.2",
   "compatibility": {
     "minimum": "13",
     "verified": "13"
   },
+  "url": "https://github.com/Nyquisttt/nyquistt-helpers",
+  "manifest": "https://github.com/Nyquisttt/nyquistt-helpers/blob/main/module.json",
   "scripts": [
     "scripts/app-choose.js"
   ],
