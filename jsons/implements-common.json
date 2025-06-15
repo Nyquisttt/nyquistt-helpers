@@ -1,0 +1,286 @@
+{
+	"name": "Implements-Common",
+	"formula": "1d100",
+	"results": [
+  {
+    "range": [
+      1,
+      2
+    ],
+    "text": "Bead of Nourishment",
+    "weight": 2
+  },
+  {
+    "range": [
+      3,
+      4
+    ],
+    "text": "Bead of Refreshment",
+    "weight": 2
+  },
+  {
+    "range": [
+      5,
+      6
+    ],
+    "text": "Boots of False Tracks",
+    "weight": 2
+  },
+  {
+    "range": [
+      7,
+      8
+    ],
+    "text": "Candle of the Deep",
+    "weight": 2
+  },
+  {
+    "range": [
+      9,
+      10
+    ],
+    "text": "Charlatan�s Die",
+    "weight": 2
+  },
+  {
+    "range": [
+      11,
+      13
+    ],
+    "text": "Cloak of Many Fashions",
+    "weight": 3
+  },
+  {
+    "range": [
+      14,
+      15
+    ],
+    "text": "Clockwork Amulet",
+    "weight": 2
+  },
+  {
+    "range": [
+      16,
+      17
+    ],
+    "text": "Ear Horn of Hearing",
+    "weight": 2
+  },
+  {
+    "range": [
+      18,
+      19
+    ],
+    "text": "Ersatz Eye",
+    "weight": 2
+  },
+  {
+    "range": [
+      20,
+      21
+    ],
+    "text": "Heward�s Handy Spice Pouch",
+    "weight": 2
+  },
+  {
+    "range": [
+      22,
+      23
+    ],
+    "text": "Horn of Silent Alarm",
+    "weight": 2
+  },
+  {
+    "range": [
+      24,
+      25
+    ],
+    "text": "Instrument of Illusions",
+    "weight": 2
+  },
+  {
+    "range": [
+      26,
+      27
+    ],
+    "text": "Instrument of Scribing",
+    "weight": 2
+  },
+  {
+    "range": [
+      28,
+      29
+    ],
+    "text": "Lock of Trickery",
+    "weight": 2
+  },
+  {
+    "range": [
+      30,
+      32
+    ],
+    "text": "Moon-Touched Sword",
+    "weight": 3
+  },
+  {
+    "range": [
+      33,
+      34
+    ],
+    "text": "Mystery Key",
+    "weight": 2
+  },
+  {
+    "range": [
+      35,
+      36
+    ],
+    "text": "Orb of Direction",
+    "weight": 2
+  },
+  {
+    "range": [
+      37,
+      38
+    ],
+    "text": "Orb of Time",
+    "weight": 2
+  },
+  {
+    "range": [
+      39,
+      40
+    ],
+    "text": "Perfume of Bewitching",
+    "weight": 2
+  },
+  {
+    "range": [
+      41,
+      42
+    ],
+    "text": "Pipe of Smoke Monsters",
+    "weight": 2
+  },
+  {
+    "range": [
+      43,
+      44
+    ],
+    "text": "Pole of Angling",
+    "weight": 2
+  },
+  {
+    "range": [
+      45,
+      46
+    ],
+    "text": "Pole of Collapsing",
+    "weight": 2
+  },
+  {
+    "range": [
+      47,
+      52
+    ],
+    "text": "Potion of Climbing",
+    "weight": 6
+  },
+  {
+    "range": [
+      53,
+      58
+    ],
+    "text": "Potion of Comprehension",
+    "weight": 6
+  },
+  {
+    "range": [
+      59,
+      74
+    ],
+    "text": "Potion of Healing",
+    "weight": 16
+  },
+  {
+    "range": [
+      75,
+      76
+    ],
+    "text": "Prosthetic Limb",
+    "weight": 2
+  },
+  {
+    "range": [
+      77,
+      78
+    ],
+    "text": "Rope of Mending",
+    "weight": 2
+  },
+  {
+    "range": [
+      79,
+      80
+    ],
+    "text": "Staff of Birdcalls",
+    "weight": 2
+  },
+  {
+    "range": [
+      81,
+      82
+    ],
+    "text": "Sylvan Talon",
+    "weight": 2
+  },
+  {
+    "range": [
+      83,
+      84
+    ],
+    "text": "Talking Doll",
+    "weight": 2
+  },
+  {
+    "range": [
+      85,
+      86
+    ],
+    "text": "Tankard of Sobriety",
+    "weight": 2
+  },
+  {
+    "range": [
+      87,
+      90
+    ],
+    "text": "Veteran�s Cane",
+    "weight": 4
+  },
+  {
+    "range": [
+      91,
+      93
+    ],
+    "text": "Walloping Ammunition",
+    "weight": 3
+  },
+  {
+    "range": [
+      94,
+      96
+    ],
+    "text": "Wand of Conducting",
+    "weight": 3
+  },
+  {
+    "range": [
+      97,
+      100
+    ],
+    "text": "Wand of Pyrotechnics",
+    "weight": 4
+  }
+]
+}

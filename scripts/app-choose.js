@@ -1125,9 +1125,92 @@ class nyqTables{
 		{minCR: 17, plat: '', gold: '(6d10)*10000', silver: '0', copper: '0', magicItem: '1d6',},
 	];
 	static monsterList;
+	static rollTablesFiles = [
+		'arcana-common.json',
+		'arcana-uncommon.json',
+		'arcana-rare.json',
+		'arcana-very-rare.json',
+		'arcana-legendary.json',
+		'armaments-common.json',
+		'armaments-uncommon.json',
+		'armaments-rare.json',
+		'armaments-very-rare.json',
+		'armaments-legendary.json',
+		'Implements-common.json',
+		'Implements-uncommon.json',
+		'Implements-rare.json',
+		'Implements-very-rare.json',
+		'Implements-legendary.json',
+		'relics-common.json',
+		'relics-uncommon.json',
+		'relics-rare.json',
+		'relics-very-rare.json',
+		'relics-legendary.json',
+	];
+	static rollTables;
 
 	static {
+		console.log("nyqTables static initialization:")
 		this.monsterList = this.csv2array("2024Bestiary_mod.csv",'<->');
+		this.rollTables = this.readListOfJsonFiles(this.rollTablesFiles);
+	}
+
+	static async createRollTableByName(name){
+		console.log("[createRollTableByName] received name",name)
+		const myList = (await this.rollTables).filter(
+			(value, index, array) => {
+				return value.name == name;
+			}
+		)
+		if(!myList.length) return "error";
+		const myTable = myList[0];
+		console.log(myTable);
+		let myData = {
+			name: myTable.name,
+			formula: myTable.formula,
+			results: [],
+		}
+		for(var i = 0; i < myTable.results.length; i++){
+			let myObj = this.createCopy(myTable.results[i]);
+			myObj.type = foundry.CONST.TABLE_RESULT_TYPES.TEXT;
+			myData.results.push(myObj);
+		}
+		console.log(myData)
+		const myRollTable = await RollTable.implementation.create(myData);
+		console.log(myRollTable)
+		return "done"
+	}
+
+	static async gimmeRollTableNames(){
+		await this.rollTables;
+		let myNameList = [];
+		//console.log(this.rollTables)
+		//return [];
+		(await this.rollTables).forEach(
+			(value, index, array) => {
+				myNameList.push(value.name);
+			}
+		)
+		return myNameList;
+	}
+
+	static async readListOfJsonFiles(fileList){
+		let myList = [];
+		for(const eachFile of fileList){
+			console.log("[readListOfJsonFiles] fetching " + eachFile);
+			const myJson = await this.readJsonFile(eachFile);
+			myList.push(myJson);
+		}
+		console.log("[readListOfJsonFiles] list of json: ", myList)
+		return myList;
+	}
+
+	static async readJsonFile(fileName){
+		const fetchResponse = await fetch(`${nyquisttHelpersModPath}jsons/${fileName}`);
+		if (!fetchResponse.ok) return {};
+		const jsonText = await fetchResponse.text();
+		const myJson = JSON.parse(jsonText);
+		return myJson;
 	}
 
 	//utilities
