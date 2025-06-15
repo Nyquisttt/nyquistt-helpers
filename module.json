@@ -1,21 +1,21 @@
 {
   "id": "nyquistt-helpers",
   "title": "Nyquistt Helpers Repo",
-  "description": "<p>A simple module that provides helper functions and macros for FoundryVTT.</p>",
+  "description": "A simple module that provides helper functions and macros for FoundryVTT.",
   "authors": [
     {
       "name": "Nyquist",
       "flags": {}
     }
   ],
-  "version": "0.1.4",
+  "version": "0.1.5",
   "compatibility": {
     "minimum": "13",
     "verified": "13"
   },
   "url": "https://github.com/Nyquisttt/nyquistt-helpers",
   "manifest": "https://github.com/Nyquisttt/nyquistt-helpers/blob/main/module.json",
-  "download": "https://github.com/Nyquisttt/nyquistt-helpers/archive/refs/tags/v0.1.4.zip",
+  "download": "https://github.com/Nyquisttt/nyquistt-helpers/archive/refs/tags/v0.1.5.zip",
   "scripts": [
     "scripts/app-choose.js"
   ],
