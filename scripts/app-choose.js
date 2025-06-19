@@ -24,9 +24,9 @@ async function showCharacterCreationApp(){
 // Similar syntax to importing, but note that
 // this is object destructuring rather than an actual import
 // senza questo comando dovresti fornire l'intero path per AppV2 e Hndlebars
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
+const { ApplicationV2: nyqHelpersAppV2, HandlebarsApplicationMixin: nyqHelpersHandlebars } = foundry.applications.api
 
-class MagicItemTrackerApp extends HandlebarsApplicationMixin(ApplicationV2){
+class MagicItemTrackerApp extends nyqHelpersHandlebars(nyqHelpersAppV2){
 	static PARTS = {
 		headerPart: { template: `${nyquisttHelpersModPath}templates/magic-items-tracker-top.hbs`},
 		buttonsPart: { template: `${nyquisttHelpersModPath}templates/magic-items-tracker-buttons.hbs`},
@@ -237,7 +237,7 @@ class MagicItemTrackerApp extends HandlebarsApplicationMixin(ApplicationV2){
 	}
 }
 
-class characterCreationApp extends HandlebarsApplicationMixin(ApplicationV2){
+class characterCreationApp extends nyqHelpersHandlebars(nyqHelpersAppV2){
 	
 	static PARTS = {
 		header: { template: `${nyquisttHelpersModPath}templates/header.hbs`},
