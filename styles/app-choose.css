@@ -208,3 +208,56 @@
 div[data-hide='true']{
     display: none;
 }
+
+.nyqDivRounded10px{
+    border-radius: 10px;
+}
+
+.nyqDivPadded10px{
+    padding: 10px;
+}
+
+.nyqDivGrid2{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.singleTracker[data-selected='true']{
+    background-color: #73AD21;
+}
+
+.trackerAdd{
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+
+.awardedItemValue{
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+    text-align: center;
+    width: 85px;
+}
+
+.awardedItemValueButton[data-type="decrease"]{
+    border: 2px;
+    background-color: red;
+}
+
+.awardedItemValueButton[data-type="increase"]{
+    border: 2px;
+    background-color: green;
+}
+
+.modifyTrackerTop{
+    display: grid;
+    grid-template-columns: 80% 20%;
+}
+
+.nyqALERT{
+    color: red;
+    font-weight: bold;
+}
+
+.nyqHorizontalScroll{
+    overflow-y: scroll;
+}

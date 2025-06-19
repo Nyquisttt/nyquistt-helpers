@@ -1,0 +1,84 @@
+<div class="nyqDivRounded10px nyqDivPadded10px nyqHorizontalScroll"{{#if hideMe}} data-hide='true'{{/if}}>
+    <div class="modifyTrackerTop">
+        <div class="modifyTrackerTopText">
+            <p>This is the awarded items per tier stored by the selected tracker</p>
+            <p class="nyqALERT">{{#if trackerListModified}}Warning the items have been modified{{/if}}</p>
+        </div>
+        <button class="nyqButton" data-action="myAction" type="button" id="btnUpdateCheckedTracker"><i class="fa-solid fa-wand-sparkles">UPDATE</i></button>
+    </div>
+    {{#each awardedItem}}
+    <div class="awardedItemSingleTier">
+        <p>{{@key}} (minLevel: {{this.minLevel}}, maxLevel: {{this.maxLevel}}):</p>
+        <table>
+            <thead>
+                <th>minLevel</th>
+                <th>maxLevel</th>
+                <th>common ({{this.common.max}})</th>
+                <th>uncommon ({{this.uncommon.max}})</th>
+                <th>rare ({{this.rare.max}})</th>
+                <th>very rare ({{this.veryRare.max}})</th>
+                <th>legendary ({{this.legendary.max}})</th>
+                <th>artifacts ({{this.artifact.max}})</th>
+            </thead>
+            <tbody>
+                <td>
+                    <div class="awardedItemValue">
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.minLevel" data-type="decrease">-</div>
+                    {{this.minLevel}}
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.minLevel" data-type="increase">+</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="awardedItemValue">
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.maxLevel" data-type="decrease">-</div>
+                    {{this.maxLevel}}
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.maxLevel" data-type="increase">+</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="awardedItemValue">
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.common" data-type="decrease">-</div>
+                    {{this.common.value}}
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.common" data-type="increase">+</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="awardedItemValue">
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.uncommon" data-type="decrease">-</div>
+                    {{this.uncommon.value}}
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.uncommon" data-type="increase">+</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="awardedItemValue">
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.rare" data-type="decrease">-</div>
+                    {{this.rare.value}}
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.rare" data-type="increase">+</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="awardedItemValue">
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.veryRare" data-type="decrease">-</div>
+                    {{this.veryRare.value}}
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.veryRare" data-type="increase">+</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="awardedItemValue">
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.legendary" data-type="decrease">-</div>
+                    {{this.legendary.value}}
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.legendary" data-type="increase">+</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="awardedItemValue">
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.artifact" data-type="decrease">-</div>
+                    {{this.artifact.value}}
+                    <div class="awardedItemValueButton" data-action="myAction" id="{{@key}}.artifact" data-type="increase">+</div>
+                    </div>
+                </td>
+            </tbody>
+        </table>
+    </div>
+    {{/each}}
+</div>

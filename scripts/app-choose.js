@@ -11,6 +11,11 @@ Hooks.on("ready", function() {
   console.log("[NYQUISTT HELPERS]: ready phase");
 });
 
+async function showMagicItemTrackerApp() {
+	let myNewApp = new MagicItemTrackerApp;
+	await myNewApp.render(true);
+}
+
 async function showCharacterCreationApp(){
 	let myNewApp = new characterCreationApp;
 	await myNewApp.render(true);
@@ -20,6 +25,217 @@ async function showCharacterCreationApp(){
 // this is object destructuring rather than an actual import
 // senza questo comando dovresti fornire l'intero path per AppV2 e Hndlebars
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
+
+class MagicItemTrackerApp extends HandlebarsApplicationMixin(ApplicationV2){
+	static PARTS = {
+		headerPart: { template: `${nyquisttHelpersModPath}templates/magic-items-tracker-top.hbs`},
+		buttonsPart: { template: `${nyquisttHelpersModPath}templates/magic-items-tracker-buttons.hbs`},
+		trackerList: { template: `${nyquisttHelpersModPath}templates/magic-items-tracker-list-trackers.hbs`},
+		modifyPart: { template: `${nyquisttHelpersModPath}templates/magic-items-tracker-modify-tracker.hbs`},
+		trackerDetails: { template: `${nyquisttHelpersModPath}templates/magic-items-tracker-details.hbs`},
+	}
+	static DEFAULT_OPTIONS = {
+		position: {
+			left: 100,
+			width: 700,
+			height: 800,
+		},
+		window: {
+			resizable: true,
+			title: "Magic Items Tracker",
+			icon: "fa-solid fa-user-plus",
+			contentClasses: ['nyqWindowContent'],
+		},
+		actions: {
+			myAction: MagicItemTrackerApp.myAction
+		}
+	}
+	showing = {headerPart: true, buttonsPart: true, trackerList: true, modifyPart: false, trackerDetails: false}
+	trackerList = [];
+	async updateCheckedTracker(){
+		let trackerFound = false;
+		const trackerListComplete = await game.nyquisttHelpers.API.nyqTables.getItemTrackerActors();
+		for(var i = 0; i < this.trackerList.length; i++){
+			if(this.trackerList[i].modified){
+				for(var j = 0; j < trackerListComplete.length; j++){
+					if(trackerListComplete[j].id == this.trackerList[i].id){
+						trackerFound = true;
+						await trackerListComplete[j].setFlag('nyquistt-helpers',"awardedItem",this.trackerList[i].awardedItem);
+						const updatingResult = await game.nyquisttHelpers.API.nyqTables.updateItemTrackerActor(trackerListComplete[j]);
+						console.log("[updateCheckedTracker] updating result",updatingResult)
+						this.trackerList[i].modified = false;
+						break;
+					}
+				}
+				break;
+			}
+		}
+		if(!trackerFound) this.updateTrackerList();
+	}
+	updateCheckedAwardedItem(awardedItemTier,awardedItemType,direction){
+		for(var i = 0; i < this.trackerList.length; i++){
+			if(this.trackerList[i].checked){
+				this.trackerList[i].modified = true;
+				const myAdd = (direction == "increase") ? 1 : -1;
+				if((awardedItemType === "minLevel")||(awardedItemType === "maxLevel"))
+					this.trackerList[i].awardedItem[awardedItemTier][awardedItemType] += myAdd;
+				else
+					this.trackerList[i].awardedItem[awardedItemTier][awardedItemType].value += myAdd;
+			}
+		}
+	}
+	getCheckedModified(){
+		const checkedTrackerList = this.trackerList.filter(
+			(value, index, array) => {
+				return value.checked;
+			}
+		)
+		let currentModified = false;
+		if(checkedTrackerList.length){
+			currentModified = checkedTrackerList[0].modified;
+		}
+		return currentModified;
+	}
+	getCheckedAwardedItem(){
+		const checkedTrackerList = this.trackerList.filter(
+			(value, index, array) => {
+				return value.checked;
+			}
+		)
+		let currentAwardedItem = {}
+		if(checkedTrackerList.length){
+			currentAwardedItem = checkedTrackerList[0].awardedItem;
+		}
+		return currentAwardedItem;
+	}
+	async updateTrackerList(){
+		//this.trackerListComplete = await game.nyquisttHelpers.API.nyqTables.getItemTrackerActors()
+		const trackerListComplete = await game.nyquisttHelpers.API.nyqTables.getItemTrackerActors()
+		let newTrackerList = [];
+		for(var i = 0; i < trackerListComplete.length; i++){
+			let myObj = {
+				name: trackerListComplete[i].name,
+				id: await trackerListComplete[i].id,
+				awardedItem: game.nyquisttHelpers.API.nyqTables.createCopy(await trackerListComplete[i].getFlag('nyquistt-helpers',"awardedItem")),
+			}
+			const existentTracker = this.trackerList.filter(
+				(value, index, array) => {
+					return value.id == myObj.id;
+				}
+			)
+			myObj.checked = existentTracker.length ? existentTracker[0].checked : false;
+			myObj.modified = existentTracker.length ? existentTracker[0].modified : false;
+			if(myObj.modified){	//keep the modified version
+				newTrackerList.push(game.nyquisttHelpers.API.nyqTables.createCopy(existentTracker[0]))
+			}
+			else //update with the new value
+				newTrackerList.push(myObj);
+		}
+		this.trackerList = newTrackerList;
+		console.log("[updateTrackerList]")
+		console.log(this.trackerList)
+	}
+	static async myAction(event, target){
+		const clickedElement = target.getAttribute("Class");
+		//console.log(clickedElement)
+		//console.log(event)
+		//console.log(target)
+		switch(clickedElement){
+			case "nyqButton":
+				let buttonID = target.getAttribute('id');
+				switch(buttonID){
+					case "btnListTrackers":
+						this.showing.trackerList = !this.showing.trackerList;
+						break;
+					case "btnModifyTracker":
+						this.showing.modifyPart = !this.showing.modifyPart;
+						break;
+					case "btnTrackerAdd":
+						let mySelector = this.element.querySelectorAll('.txtTrackerAdd');
+						//console.log(mySelector)
+						let trackerName = mySelector[0].value;
+						await game.nyquisttHelpers.API.nyqTables.createMagicItemTrackerActor(trackerName);
+						break;
+					case "btnUpdateCheckedTracker":
+						await this.updateCheckedTracker()
+						break;
+				}
+				this.render(true);
+				break;
+			case "itemTrackerCheck":
+				let checkID = target.getAttribute('id');
+				for(var i = 0; i < this.trackerList.length; i++){
+					if(this.trackerList[i].id == checkID){
+						this.trackerList[i].checked = !this.trackerList[i].checked;
+						this.showing.modifyPart = this.trackerList[i].checked;
+					} else {
+						this.trackerList[i].checked = false;
+					}
+				}
+				this.render(true);
+				break;
+			case "awardedItemValueButton":
+				this.trackerListModified = true;
+				const awardedItemValueID = target.getAttribute('id');
+				const [awardedItemTier, awardedItemType] = awardedItemValueID.split(".");
+				const direction = target.getAttribute('data-type');
+				//console.log(awardedItemTier,awardedItemType,direction)
+				this.updateCheckedAwardedItem(awardedItemTier,awardedItemType,direction);
+				this.render(true)
+				break;
+		}
+	}
+	_configureRenderOptions(options){
+		super._configureRenderOptions(options);
+		options.parts =['headerPart'];
+		options.parts.push('buttonsPart');
+		options.parts.push('trackerList');
+		options.parts.push('modifyPart');
+		options.parts.push('trackerDetails');
+	}
+	async _preparePartContext(partId, context) {
+		let hideMe = false;
+		switch(partId){
+			case 'headerPart':
+				hideMe = !this.showing.headerPart;
+				context = {
+					hideMe: hideMe,
+				}
+				break;
+			case 'buttonsPart':
+				hideMe = !this.showing.buttonsPart;
+				context = {
+					hideMe: hideMe,
+				}
+				break;
+			case 'trackerList':
+				hideMe = !this.showing.trackerList;
+				await this.updateTrackerList();
+				context = {
+					trackerList: this.trackerList,
+					hideMe: hideMe,
+				}
+				break;
+			case 'modifyPart':
+				hideMe = !this.showing.modifyPart;
+				context = {
+					hideMe: hideMe,
+					awardedItem: this.getCheckedAwardedItem(),
+					trackerListModified: this.getCheckedModified(),
+				}
+				break;
+			case 'trackerDetails':
+				hideMe = !this.showing.trackerDetails;
+				context = {
+					hideMe: hideMe,
+					awardedItem: this.getCheckedAwardedItem(),
+					trackerListModified: this.getCheckedModified(),
+				}
+				break;
+		}
+		return context;
+	}
+}
 
 class characterCreationApp extends HandlebarsApplicationMixin(ApplicationV2){
 	
@@ -1148,11 +1364,338 @@ class nyqTables{
 		'relics-legendary.json',
 	];
 	static rollTables;
+	static awardMagicItem = [
+		{
+			minLevel: 1, maxLevel: 4,
+			common: 6, uncommon: 4,
+			rare: 1, veryRare: 0,
+			legendary: 0,
+			artifact: Infinity,
+		},
+		{
+			minLevel: 5, maxLevel: 10,
+			common: 10, uncommon: 17,
+			rare: 6, veryRare: 1,
+			legendary: 0,
+			artifact: Infinity,
+		},
+		{
+			minLevel: 11, maxLevel: 16,
+			common: 3, uncommon: 7,
+			rare: 11, veryRare: 7,
+			legendary: 2,
+			artifact: Infinity,
+		},
+		{
+			minLevel: 17, maxLevel: Infinity,
+			common: 0, uncommon: 0,
+			rare: 5, veryRare: 11,
+			legendary: 9,
+			artifact: Infinity,
+		},
+	];
 
 	static {
 		console.log("nyqTables static initialization:")
 		this.monsterList = this.csv2array("2024Bestiary_mod.csv",'<->');
 		this.rollTables = this.readListOfJsonFiles(this.rollTablesFiles);
+	}
+
+	static nyqListifyObject(inputObject, orderBy="", orderDirection = "ascending"){
+		let outputList = []
+		for (const [key, value] of Object.entries(inputObject)){
+			outputList.push(value);
+		}
+		if(orderBy !== ""){
+			outputList.sort(
+				(a,b) => {
+					if(orderDirection === "ascending")
+						return a[orderBy] - b[orderBy]; //ascending
+					else
+						return b[orderBy] - a[orderBy]; //descending
+				}
+			)
+		}
+		return outputList;
+	}
+
+	static nyqTranslationAwardedItem(awardedItem){
+		const awardedItemList = this.nyqListifyObject(awardedItem,"minLevel","ascending") //now i have an array
+		let tableLines = [];
+		const tierKeys = Object.keys(awardedItemList[0]);
+		for(var i = 0; i < tierKeys.length; i++){  //need to translate the table: the keys of each awardedItemList[i] are the first colun values of the final table
+			let newLine = [];
+			newLine.push(tierKeys[i]);
+			for(var j = 0; j < awardedItemList.length; j++){ //the number of columns is the number of rows of awardedItemList
+				if((tierKeys[i] === "minLevel") || (tierKeys[i] === "maxLevel"))
+					newLine.push(awardedItemList[j][tierKeys[i]] !== null ? awardedItemList[j][tierKeys[i]] : "??");
+				else{
+					let newString = (awardedItemList[j][tierKeys[i]].value !== null) ? awardedItemList[j][tierKeys[i]].value : "??"
+					newString += "/";
+					newString += (awardedItemList[j][tierKeys[i]].max !== null) ? awardedItemList[j][tierKeys[i]].max : "??";
+					newLine.push(newString);
+				}
+			}
+			tableLines.push(newLine);
+		}
+		return tableLines;
+	}
+		//awardedItem structure:
+		/*
+		{
+			"level1": {
+				"minLevel": 1,"maxLevel": 4,
+				"common": {"max": 6,"value": 6},
+				"uncommon": {"max": 4, "value": 0},
+				"rare": {"max": 1,"value": 0},
+				"veryRare": {"max": 0,"value": 0},
+				"legendary": {"max": 0,"value": 0},
+				"artifact": {"max": null,"value": 0}
+			},
+			"level5": {
+				"minLevel": 5, "maxLevel": 10,
+				"common": {"max": 10,"value": 0},
+				"uncommon": {"max": 17,"value": 0},
+				"rare": {"max": 6,"value": 4},
+				"veryRare": {"max": 1,"value": 0},
+				"legendary": {"max": 0,"value": 0},
+				"artifact": {"max": null,"value": 0}
+			},
+			"level11": {
+				"minLevel": 11,"maxLevel": 16,
+				"common": {"max": 3,"value": 0},
+				"uncommon": {"max": 7,"value": 0},
+				"rare": {"max": 11,"value": 0},
+				"veryRare": {"max": 7,"value": 0},
+				"legendary": {"max": 2,"value": 0},
+				"artifact": {"max": null,"value": 0}
+			},
+			"level17": {
+				"minLevel": 17,"maxLevel": null,
+				"common": {"max": 0,"value": 0},
+				"uncommon": {"max": 0,"value": 0},
+				"rare": {"max": 5,"value": 0},
+				"veryRare": {"max": 11,"value": 0},
+				"legendary": {"max": 9,"value": 0},
+				"artifact": {"max": null,"value": 0}
+			}
+		}
+		*/
+
+	static async getTrackerActorItemHTML(awardedItem={}){
+		console.log("[getTrackerActorItemHTML] received awardedItem")
+		console.log(awardedItem)
+		let tierList = [];
+		for(var i = 0; i < Object.keys(awardedItem).length; i++){
+			tierList.push("Tier " + (i+1));
+		}
+		const tableLines = this.nyqTranslationAwardedItem(awardedItem);
+		const context = {
+			tierList: tierList,
+			tableLines: tableLines,
+		}
+		console.log("[getTrackerActorItemHTML] HTML context")
+		console.log(context);
+		const response = await fetch(`${nyquisttHelpersModPath}templates/tracker-actor-item-description.hbs`);
+		if (!response.ok) return 'empty';
+		//extract text
+		const templateText = await response.text();
+		//compile the tamplate
+		var myDescription = Handlebars.compile(templateText);
+		const myHTML = await myDescription({context: context});
+		//console.log(myHTML);
+		return myHTML;
+	}
+
+	static async updateItemTrackerActor(trackerActor,updates = []){
+		let validActor = false;
+		let currentItems = {}
+		try{
+			currentItems = await trackerActor.getFlag('nyquistt-helpers','awardedItem');
+			if (currentItems) validActor = true;
+		} catch {
+			console.log("[updateItemTrackerActor] provide a valid tracker actor");
+		}
+		if(!validActor) return {result: "error", errorType: "provide a valid tracker actor"};
+		/*
+		updates = [
+			{
+				playerLevel: 1,
+				rarity: "common" | "uncommon" | "rare" | "veryRare" | "legendary",
+				operation: "set" | "increase" | "decrease",
+				amount: <number>,
+			}
+		]
+		*/
+		for(var i = 0; i < updates.length; i++){
+			let usableLevels = this.awardMagicItem.filter(
+				(value, index, array) => {
+					return value.minLevel <= updates[i].playerLevel;
+				}
+			)
+			usableLevels.sort(
+				(a,b) => {
+					return b.minLevel - a.minLevel; //descending
+				}
+			)
+			const flagLevel = usableLevels[0].minLevel;
+			//console.log(flagLevel);
+			//check existance and fetch data
+			const flagLong = 'awardedItem.' + 'level' + flagLevel + '.' + updates[i].rarity + '.value';
+			let validUpdate = true;
+			let oldValue = 0;
+			let newValue = updates[i].amount;
+			if(newValue === null) validUpdate = false;
+			try {
+				oldValue = await trackerActor.getFlag('nyquistt-helpers',flagLong);
+				if(oldValue === null) validUpdate = false;
+			} catch {
+				validUpdate = false;
+			}
+			switch(updates[i].operation){
+				case "set":
+					break;
+				case "increase":
+					newValue += oldValue;
+					break;
+				case "decrease":
+					newValue = oldValue - newValue;
+					break;
+				default:
+					validUpdate = false;
+					break;
+			}
+			if(!validUpdate) {
+				console.log("[updateItemTrackerActor] skipping update number " + i)
+				continue;
+			}
+			console.log("[updateItemTrackerActor] updating " + flagLong + " with " + newValue)
+			await trackerActor.setFlag('nyquistt-helpers',flagLong,newValue);
+		}
+		const newAwardedItem = await trackerActor.getFlag('nyquistt-helpers','awardedItem');
+		const myHTML = await this.getTrackerActorItemHTML(newAwardedItem);
+		//console.log(trackerActor);
+		const itemList = trackerActor.items;
+		let magicItemTrackerFound = false;
+		let magicItemTrackerObject = {};
+		for(const singleItem of itemList){
+			//console.log(singleItem)
+			let isMagicItemTracker = false;
+			try{
+				isMagicItemTracker = singleItem.getFlag("nyquistt-helpers","isMagicItemTracker");
+			} catch {
+				continue;
+			}
+			if(!isMagicItemTracker) continue;
+			magicItemTrackerFound = true;
+			magicItemTrackerObject = singleItem;
+			break;
+		}
+		if(!magicItemTrackerFound){ //create the item
+			const itemOptions = {name: "Magic Item Tracker", type: "loot"};
+			magicItemTrackerObject = await Item.create(itemOptions, {parent: trackerActor});
+			//console.log(magicItemTrackerObject)
+			await magicItemTrackerObject.setFlag("nyquistt-helpers","isMagicItemTracker",true);
+		}
+		const myItemID = magicItemTrackerObject._id;
+		const myItemSystem = {
+			description: {
+				value: myHTML,
+				chat: myHTML,
+			}
+		};
+		const myUpdates = [
+			{_id: myItemID, system: myItemSystem},
+		];
+		const updatedItem = await Item.implementation.updateDocuments(myUpdates, {parent: trackerActor});
+		return {result: "success", awardedItem: newAwardedItem, itemHTML: myHTML}
+	}
+
+	static async getItemTrackerActors(){
+		const allActors = game.actors;
+		//console.log(allActors, allActors.length)
+		let resultList = [];
+		for(const eachActor of allActors){
+			let myObj = {};
+			try{
+				myObj = await eachActor.getFlag('nyquistt-helpers','awardedItem');
+				if(myObj) {
+					console.log("[getItemTrackerActors] found an Item Tracker",eachActor);
+					//console.log(myObj)
+					resultList.push(eachActor);
+				}
+				else {
+					console.log("[getItemTrackerActors] " + eachActor.name + " is not a tracker actor");
+				}
+			} catch(error) {
+				console.log(eachActor.name + " is not a tracker actor");
+				console.log(error)
+			}
+		}
+		console.log("[getItemTrackerActors] result List")
+		console.log(resultList)
+		return resultList;
+	}
+
+	static async createMagicItemTrackerActor(actorName = "Mr Item Tracker"){
+		const mrTrackerName = actorName;
+		const checkActor = game.actors.getName(mrTrackerName);
+		if(!checkActor){
+			console.log("[createMagicItemTrackerActor] creating the tracker actor " + mrTrackerName)
+			let myActor = await Actor.implementation.create({
+				name: mrTrackerName,
+				type: "character",
+			});
+			let myID = myActor.id;
+			for(var i = 0; i < this.awardMagicItem.length; i++){
+				const flagName = "awardedItem.level" + this.awardMagicItem[i].minLevel;
+				await myActor.setFlag('nyquistt-helpers',flagName + ".minLevel",this.awardMagicItem[i].minLevel);
+				await myActor.setFlag('nyquistt-helpers',flagName + ".maxLevel",this.awardMagicItem[i].maxLevel);
+				const myKeys = Object.keys(this.awardMagicItem[i]);
+				console.log(myKeys)
+				for(var j = 0; j < myKeys.length; j++){
+					if((myKeys[j] != "minLevel") && (myKeys[j] != "maxLevel")){
+						await myActor.setFlag('nyquistt-helpers',flagName + "." + myKeys[j] + "." + "max",this.awardMagicItem[i][myKeys[j]]);
+						await myActor.setFlag('nyquistt-helpers',flagName + "." + myKeys[j] + "." + "value",0);
+					}
+				}
+			}
+			await this.updateItemTrackerActor(myActor);
+			console.log("[createMagicItemTrackerActor] actor " + actorName + " created")
+			//console.log(myActor);
+			//create an item, type loot
+			//let awardedItemsArray = [];
+			//for(var i = 0; i < this.awardMagicItem.length; i++){
+			//	let newObj = {name: "Items from level " + this.awardMagicItem[i].minLevel, type: "loot"};
+			//	awardedItemsArray.push(newObj);
+			//};
+			//console.log(awardedItemsArray);
+			//let createdItems = await Item.create(awardedItemsArray, {parent: myActor});
+			//for(var i = 0; i < this.awardMagicItem.length; i++){
+			//	const keysArray = Object.keys(this.awardMagicItem[i]);
+			//	let newObj2 = {};
+			//	for(var j = 0; j < keysArray.length; j++){
+			//		newObj2[keysArray[j]] = this.awardMagicItem[i][keysArray[j]];
+			//		if((keysArray[j] != "minLevel") && (keysArray[j] != "maxLevel"))
+			//			newObj2[keysArray[j] + "Awarded"] = 0;
+			//	}
+			//	const myString = JSON.stringify(newObj2);
+			//	const myItemID = createdItems[i]._id;
+			//	const myItemSystem = {
+			//		description: {
+			//			value: myString,
+			//			chat: myString,
+			//		}
+			//	};
+			//	const myUpdates = [
+			//		{_id: myItemID, system: myItemSystem},
+			//	];
+			//	const updatedItem = await Item.implementation.updateDocuments(myUpdates, {parent: myActor});
+			//}
+		}
+		else{
+			console.log("[createMagicItemTrackerActor] tracker actor already exists")
+		}
 	}
 
 	static async createRollTableByName(name){
@@ -1646,9 +2189,10 @@ class nyqTables{
 	}
 }
 
-//game.cc2024.API.testFunction()
+//game.nyquisttHelpers.API.testFunction()
 const nyquisttHelpers = {
 	API: {
+		showMagicItemTrackerApp: showMagicItemTrackerApp,
 		showCharacterCreationApp: showCharacterCreationApp,
 		nyqTables: nyqTables,
 	},
