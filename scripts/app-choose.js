@@ -54,14 +54,14 @@ class MagicItemTrackerApp extends nyqHelpersHandlebars(nyqHelpersAppV2){
 	trackerList = [];
 	async updateCheckedTracker(){
 		let trackerFound = false;
-		const trackerListComplete = await game.nyquisttHelpers.API.nyqTables.getItemTrackerActors();
+		const trackerListComplete = await game.nyquisttHelpers.API.nyquisttHelpersTables.getItemTrackerActors();
 		for(var i = 0; i < this.trackerList.length; i++){
 			if(this.trackerList[i].modified){
 				for(var j = 0; j < trackerListComplete.length; j++){
 					if(trackerListComplete[j].id == this.trackerList[i].id){
 						trackerFound = true;
 						await trackerListComplete[j].setFlag('nyquistt-helpers',"awardedItem",this.trackerList[i].awardedItem);
-						const updatingResult = await game.nyquisttHelpers.API.nyqTables.updateItemTrackerActor(trackerListComplete[j]);
+						const updatingResult = await game.nyquisttHelpers.API.nyquisttHelpersTables.updateItemTrackerActor(trackerListComplete[j]);
 						console.log("[updateCheckedTracker] updating result",updatingResult)
 						this.trackerList[i].modified = false;
 						break;
@@ -109,14 +109,14 @@ class MagicItemTrackerApp extends nyqHelpersHandlebars(nyqHelpersAppV2){
 		return currentAwardedItem;
 	}
 	async updateTrackerList(){
-		//this.trackerListComplete = await game.nyquisttHelpers.API.nyqTables.getItemTrackerActors()
-		const trackerListComplete = await game.nyquisttHelpers.API.nyqTables.getItemTrackerActors()
+		//this.trackerListComplete = await game.nyquisttHelpers.API.nyquisttHelpersTables.getItemTrackerActors()
+		const trackerListComplete = await game.nyquisttHelpers.API.nyquisttHelpersTables.getItemTrackerActors()
 		let newTrackerList = [];
 		for(var i = 0; i < trackerListComplete.length; i++){
 			let myObj = {
 				name: trackerListComplete[i].name,
 				id: await trackerListComplete[i].id,
-				awardedItem: game.nyquisttHelpers.API.nyqTables.createCopy(await trackerListComplete[i].getFlag('nyquistt-helpers',"awardedItem")),
+				awardedItem: game.nyquisttHelpers.API.nyquisttHelpersTables.createCopy(await trackerListComplete[i].getFlag('nyquistt-helpers',"awardedItem")),
 			}
 			const existentTracker = this.trackerList.filter(
 				(value, index, array) => {
@@ -126,7 +126,7 @@ class MagicItemTrackerApp extends nyqHelpersHandlebars(nyqHelpersAppV2){
 			myObj.checked = existentTracker.length ? existentTracker[0].checked : false;
 			myObj.modified = existentTracker.length ? existentTracker[0].modified : false;
 			if(myObj.modified){	//keep the modified version
-				newTrackerList.push(game.nyquisttHelpers.API.nyqTables.createCopy(existentTracker[0]))
+				newTrackerList.push(game.nyquisttHelpers.API.nyquisttHelpersTables.createCopy(existentTracker[0]))
 			}
 			else //update with the new value
 				newTrackerList.push(myObj);
@@ -154,7 +154,7 @@ class MagicItemTrackerApp extends nyqHelpersHandlebars(nyqHelpersAppV2){
 						let mySelector = this.element.querySelectorAll('.txtTrackerAdd');
 						//console.log(mySelector)
 						let trackerName = mySelector[0].value;
-						await game.nyquisttHelpers.API.nyqTables.createMagicItemTrackerActor(trackerName);
+						await game.nyquisttHelpers.API.nyquisttHelpersTables.createMagicItemTrackerActor(trackerName);
 						break;
 					case "btnUpdateCheckedTracker":
 						await this.updateCheckedTracker()
@@ -1245,7 +1245,7 @@ class characterCreationApp extends nyqHelpersHandlebars(nyqHelpersAppV2){
 	
 }
 
-class nyqTables{
+class nyquisttHelpersTables{
 	//tables
 	static encounterXpBudgetByLevel = [
 		{lvl: 1, low: 50, moderate: 75, high: 100},
@@ -1396,7 +1396,7 @@ class nyqTables{
 	];
 
 	static {
-		console.log("nyqTables static initialization:")
+		console.log("nyquisttHelpersTables static initialization:")
 		this.monsterList = this.csv2array("2024Bestiary_mod.csv",'<->');
 		this.rollTables = this.readListOfJsonFiles(this.rollTablesFiles);
 	}
@@ -1823,11 +1823,11 @@ class nyqTables{
 		//creates the HTML string that represents a table with the amount of fights for the 3 possible difficulty level needed to increase the player level for each level (0-20)
 		let tableAdvancement = [];
 		for (var myLevel2 = 0; myLevel2 < 21; myLevel2++){
-			const deltaXP = game.cc2024.API.nyqTables.deltaXpByLevel(myLevel2);
+			const deltaXP = game.cc2024.API.nyquisttHelpersTables.deltaXpByLevel(myLevel2);
 			//console.log('level: ' + myLevel2 + ' xp: ' + deltaXP);
-			const budgetLow = game.cc2024.API.nyqTables.computeBudget([{lvl: myLevel2-1}],'low');
-			const budgetModerate = game.cc2024.API.nyqTables.computeBudget([{lvl: myLevel2-1}],'moderate');
-			const budgetHigh = game.cc2024.API.nyqTables.computeBudget([{lvl: myLevel2-1}],'high');
+			const budgetLow = game.cc2024.API.nyquisttHelpersTables.computeBudget([{lvl: myLevel2-1}],'low');
+			const budgetModerate = game.cc2024.API.nyquisttHelpersTables.computeBudget([{lvl: myLevel2-1}],'moderate');
+			const budgetHigh = game.cc2024.API.nyquisttHelpersTables.computeBudget([{lvl: myLevel2-1}],'high');
 			//console.log('budget (low,moderate,high): ' + budgetLow + ', ' + budgetModerate + ', ' + budgetHigh);
 			const newField = {lvl: myLevel2, deltaXP: deltaXP, low: (deltaXP/budgetLow).toFixed(2), moderate: (deltaXP/budgetModerate).toFixed(2), high: (deltaXP/budgetHigh).toFixed(2)};
 			tableAdvancement.push(newField);
@@ -2194,7 +2194,7 @@ const nyquisttHelpers = {
 	API: {
 		showMagicItemTrackerApp: showMagicItemTrackerApp,
 		showCharacterCreationApp: showCharacterCreationApp,
-		nyqTables: nyqTables,
+		nyquisttHelpersTables: nyquisttHelpersTables,
 	},
 }
 
