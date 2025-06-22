@@ -1401,6 +1401,105 @@ class nyquisttHelpersTables{
 		this.rollTables = this.readListOfJsonFiles(this.rollTablesFiles);
 	}
 
+	//utilities
+	static findMeAn(strType, listSearchParams, listExtractedValues){
+		console.log("[findMeAn] has been called")
+		//console.log(strType,listSearchParams, listExtractedValues);
+		/* 
+		strType: "actor", 
+		listSearchParams: [
+			{
+				paramName: "string",				//the parameter to check
+				checkFunction: function reference	//the function used for checking, must return true or false
+			},
+		]
+		listExtractedValues: [
+			{
+				valueName: "string"					//tha parameter to extract
+				valueFunction: function reference	//the function to apply to the parameter (null means return the parameter as is)
+			}
+		]
+		*/
+		let wholeList = [];
+		switch (strType){
+			case "actor":
+				wholeList = game.actors;
+				break;
+		}
+		//console.log("[findMeAn] whole list:", wholeList);
+		const reduxList = wholeList.filter(
+			(value, index, array) => {
+				let goodValue = true;
+				for(var i = 0; i < listSearchParams.length; i++){
+					if((listSearchParams[i].checkFunction === undefined) || (listSearchParams[i].checkFunction === null)){
+						listSearchParams[i].checkFunction = (value) => { return ((value !== undefined) && (value !== undefined))}
+					}
+					goodValue = this.extractFromObject(value,listSearchParams[i].paramName,listSearchParams[i].checkFunction); //listSearchParams[i].checkFunction(value[listSearchParams[i].paramName]);
+					if(goodValue) break;
+				}
+				return goodValue;
+			}
+		)
+		//console.log("[findMeAn] redux list:", reduxList);
+		let returnList = [];
+		for(var i = 0; i < reduxList.length; i++){
+			let newObj = {};
+			for(var j=0; j < listExtractedValues.length; j++){
+				if((listExtractedValues[j].valueFunction === undefined) || (listExtractedValues[j].valueFunction === null)){
+					listExtractedValues[j].valueFunction = (value) => { return value};
+				}
+				const extractedValue = this.extractFromObject(reduxList[i],listExtractedValues[j].valueName,listExtractedValues[j].valueFunction);
+				newObj = this.createNestedObjectValue(newObj,listExtractedValues[j].valueName,extractedValue);
+				//newObj[listExtractedValues[j].valueName] = this.extractFromObject(reduxList[i],listExtractedValues[j].valueName,listExtractedValues[j].valueFunction);
+			}
+			returnList.push(newObj);
+		}
+		//console.log("[findMeAn] return list:", returnList);
+		return returnList;
+	}
+
+	static extractFromObject(theObject, keyName, functionRef){	//SYNC all values must be synced
+		console.log("[extractFromObject] called")
+		//console.log(theObject, keyName, functionRef)
+		const nestedObject = this.getNestedObjectValue(theObject,keyName);
+		//console.log("nested object:")
+		//console.log(nestedObject)
+		if(!nestedObject) return null
+		//let myValue = theObject[keyName];
+		if(functionRef === null) return this.createCopy(nestedObject);
+		let myNewValue = functionRef(nestedObject);
+		return myNewValue;
+	}
+
+	static getNestedObjectValue(theObject, keyString){	//SYNC all values must be synced
+		console.log("[getNestedObjectValue] called")
+		//console.log(theObject, keyString)
+		return keyString.split('.').reduce(
+			(cur,next) => {
+				//console.log("cur:")
+				//console.log(cur)
+				//console.log("nex:")
+				//console.log(next)
+				return cur[next]
+			},
+			theObject,
+		)
+	}
+
+	static createNestedObjectValue(theObject, keyString, actualValue){	//SYNC all values must be synced
+		if(!theObject) theObject = {};
+		const theKeysPath = keyString.split('.');
+		let newObj = theObject;
+		for(var i = 0; i < theKeysPath.length-1; i++){
+			if(!newObj[theKeysPath[i]]){
+				newObj[theKeysPath[i]] = {};
+			}
+			newObj = newObj[theKeysPath[i]];
+		}
+		newObj[theKeysPath[theKeysPath.length-1]] = actualValue;
+		return theObject;
+	}
+
 	static nyqListifyObject(inputObject, orderBy="", orderDirection = "ascending"){
 		let outputList = []
 		for (const [key, value] of Object.entries(inputObject)){
@@ -1756,7 +1855,6 @@ class nyquisttHelpersTables{
 		return myJson;
 	}
 
-	//utilities
 	static createCopy(myObj){
 		return JSON.parse(JSON.stringify(myObj));
 	}
