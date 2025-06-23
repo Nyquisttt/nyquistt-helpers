@@ -1401,7 +1401,87 @@ class nyquisttHelpersTables{
 		this.rollTables = this.readListOfJsonFiles(this.rollTablesFiles);
 	}
 
-	//utilities
+	/*****************************************
+	* utilities
+	*****************************************/
+
+	static getMeTheCollection(objectType){
+		let wholeList = [];
+		switch (objectType){
+			case "actor":
+				wholeList = game.actors;
+				break;
+			case "actorFolder":
+				wholeList = game.actors.folders;
+				break;
+		}
+		return wholeList;
+	}
+
+	static reduxTheCollection(myCollection,searchParams){
+		/**
+		 * filters the myCollection list using searchParams as filtering conditions
+		 * myCollection: list of objects
+		 * searchParams: list of object that define how to filter myCollection
+		 * each object in searchParams is like:
+		 * {
+		 * 	paramName: string, //name of the key in the myCollection object to check for filtering
+		 * 	checkFunction: function | null | undefined, // function that returns true or false whan applied to paramName
+		 * }
+		 */
+		const reduxList = myCollection.filter(
+			(value, index, array) => {
+				let goodValue = true;
+				for(var i = 0; i < searchParams.length; i++){
+					//console.log("paramName: ",listSearchParams[i].paramName)
+					if((searchParams[i].checkFunction === undefined) || (searchParams[i].checkFunction === null)){
+						searchParams[i].checkFunction = (value) => { return ((value !== undefined) && (value !== undefined))}
+					}
+					goodValue = this.extractFromObject(value,searchParams[i].paramName,searchParams[i].checkFunction); //listSearchParams[i].checkFunction(value[listSearchParams[i].paramName]);
+					//console.log("goodValue: ",goodValue)
+					if(!goodValue) break;
+				}
+				return goodValue;
+			}
+		)
+		return reduxList;
+	}
+
+	static extractFieldsFromCollection(myCollection,fieldsList){
+		/**
+		 * extracts the fields in fieldsList from each object of the list myCollection and returns the resulting list
+		 * myCollection: a list of object to analize
+		 * fieldsList: the fields of each object to extract. it is a list of objects
+		 * each object in fieldsList is organized as:
+		 * {
+		 * 	valueName: string, //the field to extract
+		 * 	valueFunction: function, //the function to apply on the field before returning the value
+		 * }
+		 */
+		let returnList = [];
+		for(var i = 0; i < myCollection.length; i++){
+			let newObj = {};
+			for(var j=0; j < fieldsList.length; j++){
+				if((fieldsList[j].valueFunction === undefined) || (fieldsList[j].valueFunction === null)){
+					fieldsList[j].valueFunction = (value) => { return value};
+				}
+				const extractedValue = this.extractFromObject(myCollection[i],fieldsList[j].valueName,fieldsList[j].valueFunction);
+				newObj = this.createNestedObjectValue(newObj,fieldsList[j].valueName,extractedValue);
+				//newObj[listExtractedValues[j].valueName] = this.extractFromObject(reduxList[i],listExtractedValues[j].valueName,listExtractedValues[j].valueFunction);
+			}
+			returnList.push(newObj);
+		}
+		return returnList;
+	}
+
+	static pleaseGive(strType, listSearchParams, listExtractedValues){
+		console.log("[pleaseGive] has been called");
+		const wholeList = this.getMeTheCollection(strType);
+		const reduxList = this.reduxTheCollection(wholeList,listSearchParams);
+		const returnList = this.extractFieldsFromCollection(reduxList,listExtractedValues);
+		return returnList;
+	}
+
 	static findMeAn(strType, listSearchParams, listExtractedValues){
 		console.log("[findMeAn] has been called")
 		//console.log(strType,listSearchParams, listExtractedValues);
@@ -1425,17 +1505,22 @@ class nyquisttHelpersTables{
 			case "actor":
 				wholeList = game.actors;
 				break;
+			case "actorFolder":
+				wholeList = game.actors.folders;
+				break;
 		}
 		//console.log("[findMeAn] whole list:", wholeList);
 		const reduxList = wholeList.filter(
 			(value, index, array) => {
 				let goodValue = true;
 				for(var i = 0; i < listSearchParams.length; i++){
+					//console.log("paramName: ",listSearchParams[i].paramName)
 					if((listSearchParams[i].checkFunction === undefined) || (listSearchParams[i].checkFunction === null)){
 						listSearchParams[i].checkFunction = (value) => { return ((value !== undefined) && (value !== undefined))}
 					}
 					goodValue = this.extractFromObject(value,listSearchParams[i].paramName,listSearchParams[i].checkFunction); //listSearchParams[i].checkFunction(value[listSearchParams[i].paramName]);
-					if(goodValue) break;
+					//console.log("goodValue: ",goodValue)
+					if(!goodValue) break;
 				}
 				return goodValue;
 			}
@@ -1480,7 +1565,8 @@ class nyquisttHelpersTables{
 				//console.log(cur)
 				//console.log("nex:")
 				//console.log(next)
-				return cur[next]
+				if(cur) return cur[next];
+				else return null;
 			},
 			theObject,
 		)
