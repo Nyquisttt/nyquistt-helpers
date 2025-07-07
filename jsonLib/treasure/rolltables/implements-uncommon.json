@@ -1,0 +1,354 @@
+{
+    "tablePath": "treasure.rollables",
+    "variables": "none",
+    "values": "*",
+    "valueList": "results",
+	"name": "Implements-Uncommon",
+	"formula": "1d100",
+	"results": [
+  {
+    "range": [
+      1,
+      2
+    ],
+    "text": "Alchemy Jug",
+    "weight": 2
+  },
+  {
+    "range": [
+      3,
+      6
+    ],
+    "text": "Ammunition, +1",
+    "weight": 4
+  },
+  {
+    "range": [
+      7,
+      10
+    ],
+    "text": "Bag of Holding",
+    "weight": 4
+  },
+  {
+    "range": [
+      11,
+      12
+    ],
+    "text": "Boots of Elvenkind",
+    "weight": 2
+  },
+  {
+    "range": [
+      13,
+      14
+    ],
+    "text": "Boots of Striding and Springing",
+    "weight": 2
+  },
+  {
+    "range": [
+      15,
+      16
+    ],
+    "text": "Boots of the Winterlands",
+    "weight": 2
+  },
+  {
+    "range": [
+      17,
+      18
+    ],
+    "text": "Broom of Flying",
+    "weight": 2
+  },
+  {
+    "range": [
+      19,
+      20
+    ],
+    "text": "Cap of Water Breathing",
+    "weight": 2
+  },
+  {
+    "range": [
+      21,
+      22
+    ],
+    "text": "Cloak of Elvenkind",
+    "weight": 2
+  },
+  {
+    "range": [
+      23,
+      24
+    ],
+    "text": "Cloak of Protection",
+    "weight": 2
+  },
+  {
+    "range": [
+      25,
+      26
+    ],
+    "text": "Cloak of the Manta Ray",
+    "weight": 2
+  },
+  {
+    "range": [
+      27,
+      27
+    ],
+    "text": "Decanter of Endless Water",
+    "weight": 1
+  },
+  {
+    "range": [
+      28,
+      30
+    ],
+    "text": "Driftglobe",
+    "weight": 3
+  },
+  {
+    "range": [
+      31,
+      32
+    ],
+    "text": "Dust of Disappearance",
+    "weight": 2
+  },
+  {
+    "range": [
+      33,
+      34
+    ],
+    "text": "Dust of Dryness",
+    "weight": 2
+  },
+  {
+    "range": [
+      35,
+      36
+    ],
+    "text": "Dust of Sneezing and Choking",
+    "weight": 2
+  },
+  {
+    "range": [
+      37,
+      38
+    ],
+    "text": "Enspelled Weapon�(cantrip or level 1 spell)",
+    "weight": 2
+  },
+  {
+    "range": [
+      39,
+      40
+    ],
+    "text": "Eyes of Minute Seeing",
+    "weight": 2
+  },
+  {
+    "range": [
+      41,
+      42
+    ],
+    "text": "Eyes of the Eagle",
+    "weight": 2
+  },
+  {
+    "range": [
+      43,
+      44
+    ],
+    "text": "Gloves of Missile Snaring",
+    "weight": 2
+  },
+  {
+    "range": [
+      45,
+      46
+    ],
+    "text": "Gloves of Swimming and Climbing",
+    "weight": 2
+  },
+  {
+    "range": [
+      47,
+      48
+    ],
+    "text": "Gloves of Thievery",
+    "weight": 2
+  },
+  {
+    "range": [
+      49,
+      50
+    ],
+    "text": "Goggles of Night",
+    "weight": 2
+  },
+  {
+    "range": [
+      51,
+      51
+    ],
+    "text": "Hag Eye",
+    "weight": 1
+  },
+  {
+    "range": [
+      52,
+      54
+    ],
+    "text": "Helm of Comprehending Languages",
+    "weight": 3
+  },
+  {
+    "range": [
+      55,
+      55
+    ],
+    "text": "Immovable Rod",
+    "weight": 1
+  },
+  {
+    "range": [
+      56,
+      57
+    ],
+    "text": "Instrument of the Bards�(Doss lute,�Fochlucan bandore, or�Mac-Fuirmidh cittern)",
+    "weight": 2
+  },
+  {
+    "range": [
+      58,
+      59
+    ],
+    "text": "Lantern of Revealing",
+    "weight": 2
+  },
+  {
+    "range": [
+      60,
+      61
+    ],
+    "text": "Nature�s Mantle",
+    "weight": 2
+  },
+  {
+    "range": [
+      62,
+      63
+    ],
+    "text": "Oil of Slipperiness",
+    "weight": 2
+  },
+  {
+    "range": [
+      64,
+      65
+    ],
+    "text": "Pipes of Haunting",
+    "weight": 2
+  },
+  {
+    "range": [
+      66,
+      67
+    ],
+    "text": "Pipes of the Sewers",
+    "weight": 2
+  },
+  {
+    "range": [
+      68,
+      71
+    ],
+    "text": "Potion of Growth",
+    "weight": 4
+  },
+  {
+    "range": [
+      72,
+      80
+    ],
+    "text": "Potion of Healing (greater)",
+    "weight": 9
+  },
+  {
+    "range": [
+      81,
+      84
+    ],
+    "text": "Potion of Water Breathing",
+    "weight": 4
+  },
+  {
+    "range": [
+      85,
+      86
+    ],
+    "text": "Quaal�s Feather Token�(anchor,�fan, or�tree)",
+    "weight": 2
+  },
+  {
+    "range": [
+      87,
+      88
+    ],
+    "text": "Ring of Jumping",
+    "weight": 2
+  },
+  {
+    "range": [
+      89,
+      90
+    ],
+    "text": "Ring of Swimming",
+    "weight": 2
+  },
+  {
+    "range": [
+      91,
+      92
+    ],
+    "text": "Ring of Warmth",
+    "weight": 2
+  },
+  {
+    "range": [
+      93,
+      94
+    ],
+    "text": "Robe of Useful Items",
+    "weight": 2
+  },
+  {
+    "range": [
+      95,
+      96
+    ],
+    "text": "Rope of Climbing",
+    "weight": 2
+  },
+  {
+    "range": [
+      97,
+      98
+    ],
+    "text": "Stone of Good Luck",
+    "weight": 2
+  },
+  {
+    "range": [
+      99,
+      100
+    ],
+    "text": "Wand of Secrets",
+    "weight": 2
+  }
+]
+}

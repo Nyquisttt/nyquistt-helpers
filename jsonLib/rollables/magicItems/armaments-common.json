@@ -1,0 +1,86 @@
+{
+	"name": "Armaments-Common",
+	"formula": "1d100",
+	"results": [
+  {
+    "range": [
+      1,
+      10
+    ],
+    "text": "Armor of Gleaming",
+    "weight": 10
+  },
+  {
+    "range": [
+      11,
+      20
+    ],
+    "text": "Cast-Off Armor",
+    "weight": 10
+  },
+  {
+    "range": [
+      21,
+      30
+    ],
+    "text": "Dread Helm",
+    "weight": 10
+  },
+  {
+    "range": [
+      31,
+      40
+    ],
+    "text": "Moon-Touched Sword",
+    "weight": 10
+  },
+  {
+    "range": [
+      41,
+      50
+    ],
+    "text": "Shield of Expression",
+    "weight": 10
+  },
+  {
+    "range": [
+      51,
+      60
+    ],
+    "text": "Silvered Weapon",
+    "weight": 10
+  },
+  {
+    "range": [
+      61,
+      70
+    ],
+    "text": "Smoldering Armor",
+    "weight": 10
+  },
+  {
+    "range": [
+      71,
+      80
+    ],
+    "text": "Sylvan Talon",
+    "weight": 10
+  },
+  {
+    "range": [
+      81,
+      90
+    ],
+    "text": "Veteran�s Cane",
+    "weight": 10
+  },
+  {
+    "range": [
+      91,
+      100
+    ],
+    "text": "Walloping Ammunition",
+    "weight": 10
+  }
+]
+}

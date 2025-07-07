@@ -1,0 +1,136 @@
+{
+    "name": "backgrounds",
+    "tablePath": "dnd2024",
+    "values": "*",
+    "variables": "ID",
+    "valueList": [
+		{
+			"name": "Acolyte",
+			"ID": 0,
+			"tool": "Calligrapher's Supplies",
+			"feat": "Magic Initiate (Cleric)",
+			"skillSelection": [0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],
+			"statsSelection": [0,0,0,1,1,1]
+		},
+		{
+			"name": "Artisan",
+			"ID": 1,
+			"tool": "Choose one",
+			"feat": "Crafter",
+			"skillSelection": [0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0],
+			"statsSelection": [1,1,0,1,0,0]
+		},
+		{
+			"name": "Charlatan",
+			"ID": 2,
+			"tool": "Forgery Kit",
+			"feat": "Skilled",
+			"skillSelection": [0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0],
+			"statsSelection": [0,1,1,0,0,1]
+		},
+		{
+			"name": "Criminal",
+			"ID": 3,
+			"tool": "Thieves' Tools",
+			"feat": "Alert",
+			"skillSelection": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0],
+			"statsSelection": [0,1,1,1,0,0]
+		},
+		{
+			"name": "Entertainer",
+			"ID": 4,
+			"tool": "Choose one instrument",
+			"feat": "Musician",
+			"skillSelection": [1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],
+			"statsSelection": [1,1,0,0,0,1]
+		},
+		{
+			"name": "Farmer",
+			"ID": 5,
+			"tool": "Carpenter's Tools",
+			"feat": "Tough",
+			"skillSelection": [0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+			"statsSelection": [1,0,1,0,1,0]
+		},
+		{
+			"name": "Guard",
+			"ID": 6,
+			"tool": "Choose one gaming set",
+			"feat": "Alert",
+			"skillSelection": [0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
+			"statsSelection": [1,0,0,1,1,0]
+		},
+		{
+			"name": "Guide",
+			"ID": 7,
+			"tool": "Cartographer's Tools",
+			"feat": "Magic Initiate (Druid)",
+			"skillSelection": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+			"statsSelection": [0,1,1,0,1,0]
+		},
+		{
+			"name": "Hermit",
+			"ID": 8,
+			"tool": "Herbalism Kit",
+			"feat": "Healer",
+			"skillSelection": [0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0],
+			"statsSelection": [0,0,1,0,1,1]
+		},
+		{
+			"name": "Merchant",
+			"ID": 9,
+			"tool": "Navigator's Tools",
+			"feat": "Lucky",
+			"skillSelection": [0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],
+			"statsSelection": [0,0,1,1,0,1]
+		},
+		{
+			"name": "Noble",
+			"ID": 10,
+			"tool": "Choose one gaming set",
+			"feat": "Skilled",
+			"skillSelection": [0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0],
+			"statsSelection": [1,0,0,1,0,1]
+		},
+		{
+			"name": "Sage",
+			"ID": 11,
+			"tool": "Calligrapher's Supplies",
+			"feat": "Magic Initiate (Wizard)",
+			"skillSelection": [0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],
+			"statsSelection": [0,0,1,1,1,0]
+		},
+		{
+			"name": "Sailor",
+			"ID": 12,
+			"tool": "Navigator's Tools",
+			"feat": "Tavern Brawler",
+			"skillSelection": [1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
+			"statsSelection": [1,1,0,0,1,0]
+		},
+		{
+			"name": "Scribe",
+			"ID": 13,
+			"tool": "Calligrapher's Supplies",
+			"feat": "Skilled",
+			"skillSelection": [0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0],
+			"statsSelection": [0,1,0,1,1,0]
+		},
+		{
+			"name": "Soldier",
+			"ID": 14,
+			"tool": "Choose one gaming set",
+			"feat": "Savage Attacker",
+			"skillSelection": [0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
+			"statsSelection": [1,1,1,0,0,0]
+		},
+		{
+			"name": "Wayfarer",
+			"ID": 15,
+			"tool": "Thieves' Tools",
+			"feat": "Lucky",
+			"skillSelection": [0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0],
+			"statsSelection": [0,1,0,0,1,1]
+		}
+	]
+}

@@ -1,0 +1,82 @@
+{
+    "tablePath": "treasure.rollables",
+    "variables": "none",
+    "values": "*",
+    "valueList": "results",
+	"name": "Relics-Common",
+	"formula": "1d100",
+	"results": [
+  {
+    "range": [
+      1,
+      8
+    ],
+    "text": "Ear Horn of Hearing",
+    "weight": 8
+  },
+  {
+    "range": [
+      9,
+      28
+    ],
+    "text": "Potion of Healing",
+    "weight": 20
+  },
+  {
+    "range": [
+      29,
+      36
+    ],
+    "text": "Pot of Awakening",
+    "weight": 8
+  },
+  {
+    "range": [
+      37,
+      44
+    ],
+    "text": "Ruby of the War Mage",
+    "weight": 8
+  },
+  {
+    "range": [
+      45,
+      52
+    ],
+    "text": "Shield of Expression",
+    "weight": 8
+  },
+  {
+    "range": [
+      53,
+      60
+    ],
+    "text": "Smoldering Armor",
+    "weight": 8
+  },
+  {
+    "range": [
+      61,
+      80
+    ],
+    "text": "Spell Scroll�(cantrip�or�level 1�spell)",
+    "weight": 20
+  },
+  {
+    "range": [
+      81,
+      90
+    ],
+    "text": "Staff of Adornment",
+    "weight": 10
+  },
+  {
+    "range": [
+      91,
+      100
+    ],
+    "text": "Staff of Flowers",
+    "weight": 10
+  }
+]
+}

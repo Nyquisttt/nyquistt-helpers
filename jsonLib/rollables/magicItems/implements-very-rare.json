@@ -1,0 +1,118 @@
+{
+	"name": "Implements-Very-Rare",
+	"formula": "1d100",
+	"results": [
+  {
+    "range": [
+      1,
+      7
+    ],
+    "text": "Ammunition, +3",
+    "weight": 7
+  },
+  {
+    "range": [
+      8,
+      14
+    ],
+    "text": "Bag of Devouring",
+    "weight": 7
+  },
+  {
+    "range": [
+      15,
+      21
+    ],
+    "text": "Carpet of Flying",
+    "weight": 7
+  },
+  {
+    "range": [
+      22,
+      28
+    ],
+    "text": "Enspelled Weapon�(level 4 or 5 spell)",
+    "weight": 7
+  },
+  {
+    "range": [
+      29,
+      35
+    ],
+    "text": "Horseshoes of a Zephyr",
+    "weight": 7
+  },
+  {
+    "range": [
+      36,
+      42
+    ],
+    "text": "Instrument of the Bards (Anstruth harp)",
+    "weight": 7
+  },
+  {
+    "range": [
+      43,
+      49
+    ],
+    "text": "Ioun Stone�(agility)",
+    "weight": 7
+  },
+  {
+    "range": [
+      50,
+      56
+    ],
+    "text": "Lute of Thunderous Thumping",
+    "weight": 7
+  },
+  {
+    "range": [
+      57,
+      63
+    ],
+    "text": "Manual of Quickness of Action",
+    "weight": 7
+  },
+  {
+    "range": [
+      64,
+      70
+    ],
+    "text": "Nolzur�s Marvelous Pigments",
+    "weight": 7
+  },
+  {
+    "range": [
+      71,
+      77
+    ],
+    "text": "Potion of Flying",
+    "weight": 7
+  },
+  {
+    "range": [
+      78,
+      86
+    ],
+    "text": "Potion of Healing (supreme)",
+    "weight": 9
+  },
+  {
+    "range": [
+      87,
+      93
+    ],
+    "text": "Potion of Speed",
+    "weight": 7
+  },
+  {
+    "range": [
+      94,
+      100
+    ],
+    "text": "Tome of Leadership and Influence",
+    "weight": 7
+  }
+]
+}

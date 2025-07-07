@@ -1,0 +1,15 @@
+{
+    "name": "armorWeaponProficiency",
+    "tablePath": "dnd2024",
+    "values": ["bonus", "cost"],
+    "variables": "score",
+    "valueList": [
+		{"name": "Simple Weapons"},
+		{"name": "Martial Weapons"},
+		{"name": "Light Armor"},
+		{"name": "Medium Armor"},
+		{"name": "Heavy Armor"},
+		{"name": "Shields"},
+		{"name": "Weapon Mastery"}
+	]
+}

@@ -1,0 +1,154 @@
+{
+    "tablePath": "dnd2024.treasure.rollables",
+    "variables": "none",
+    "values": "*",
+    "valueList": "results",
+	"name": "Armaments-Legendary",
+	"formula": "1d100",
+	"results": [
+  {
+    "range": [
+      1,
+      6
+    ],
+    "text": "Armor, +3",
+    "weight": 6
+  },
+  {
+    "range": [
+      7,
+      12
+    ],
+    "text": "Armor of Invulnerability",
+    "weight": 6
+  },
+  {
+    "range": [
+      13,
+      18
+    ],
+    "text": "Belt of Giant Strength (cloud)",
+    "weight": 6
+  },
+  {
+    "range": [
+      19,
+      21
+    ],
+    "text": "Belt of Giant Strength (storm)",
+    "weight": 3
+  },
+  {
+    "range": [
+      22,
+      27
+    ],
+    "text": "Defender",
+    "weight": 6
+  },
+  {
+    "range": [
+      28,
+      33
+    ],
+    "text": "Efreeti Chain",
+    "weight": 6
+  },
+  {
+    "range": [
+      34,
+      39
+    ],
+    "text": "Enspelled Armor�(level 6, 7, or 8 spell)",
+    "weight": 6
+  },
+  {
+    "range": [
+      40,
+      45
+    ],
+    "text": "Enspelled Weapon�(level 6, 7, or 8 spell)",
+    "weight": 6
+  },
+  {
+    "range": [
+      46,
+      51
+    ],
+    "text": "Hammer of Thunderbolts",
+    "weight": 6
+  },
+  {
+    "range": [
+      52,
+      56
+    ],
+    "text": "Holy Avenger",
+    "weight": 5
+  },
+  {
+    "range": [
+      57,
+      62
+    ],
+    "text": "Horn of Valhalla (iron)",
+    "weight": 6
+  },
+  {
+    "range": [
+      63,
+      68
+    ],
+    "text": "Luck Blade",
+    "weight": 6
+  },
+  {
+    "range": [
+      69,
+      72
+    ],
+    "text": "Moonblade",
+    "weight": 4
+  },
+  {
+    "range": [
+      73,
+      78
+    ],
+    "text": "Plate Armor of Etherealness",
+    "weight": 6
+  },
+  {
+    "range": [
+      79,
+      87
+    ],
+    "text": "Potion of Giant Strength (storm)",
+    "weight": 9
+  },
+  {
+    "range": [
+      88,
+      90
+    ],
+    "text": "Rod of Lordly Might",
+    "weight": 3
+  },
+  {
+    "range": [
+      91,
+      95
+    ],
+    "text": "Sword of Answering",
+    "weight": 5
+  },
+  {
+    "range": [
+      96,
+      100
+    ],
+    "text": "Vorpal Sword",
+    "weight": 5
+  }
+]
+}

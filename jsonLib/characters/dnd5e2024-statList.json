@@ -1,0 +1,14 @@
+{
+    "name": "dnd5e2024-statList",
+    "tablePath": "characters",
+    "values": ["short"],
+    "variables": "name",
+    "valueList":[
+		{"name": "STRENGTH", "short": "STR"},
+		{"name": "DEXTERITY", "short": "DEX"},
+		{"name": "CONSTITUTION", "short": "CON"},
+		{"name": "INTELLIGENCE", "short": "INT"},
+		{"name": "WISDOM", "short": "WIS"},
+		{"name": "CHARISMA", "short": "CHA"}
+	]
+}

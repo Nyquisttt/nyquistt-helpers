@@ -1,0 +1,10 @@
+{
+    "name": "foundryv13",
+    "tablePath": "foundryversion",
+    "values": "*",
+    "variables": "ID",
+    "valueList": [
+        {"actorCollection": "game.actors"},
+        {"actorFolderCollection": "game.actors.folders"}
+    ]
+}

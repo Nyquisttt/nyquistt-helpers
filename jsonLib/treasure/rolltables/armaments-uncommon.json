@@ -1,0 +1,178 @@
+{
+    "tablePath": "treasure.rollables",
+    "variables": "none",
+    "values": "*",
+    "valueList": "results",
+	"name": "Armaments-Uncommon",
+	"formula": "1d100",
+	"results": [
+  {
+    "range": [
+      1,
+      4
+    ],
+    "text": "Adamantine Armor",
+    "weight": 4
+  },
+  {
+    "range": [
+      5,
+      8
+    ],
+    "text": "Adamantine Weapon",
+    "weight": 4
+  },
+  {
+    "range": [
+      9,
+      13
+    ],
+    "text": "Ammunition, +1",
+    "weight": 5
+  },
+  {
+    "range": [
+      14,
+      18
+    ],
+    "text": "Bracers of Archery",
+    "weight": 5
+  },
+  {
+    "range": [
+      19,
+      23
+    ],
+    "text": "Enspelled Armor�(cantrip or level 1 spell)",
+    "weight": 5
+  },
+  {
+    "range": [
+      24,
+      28
+    ],
+    "text": "Enspelled Weapon�(cantrip or level 1 spell)",
+    "weight": 5
+  },
+  {
+    "range": [
+      29,
+      33
+    ],
+    "text": "Gauntlets of Ogre Power",
+    "weight": 5
+  },
+  {
+    "range": [
+      34,
+      38
+    ],
+    "text": "Javelin of Lightning",
+    "weight": 5
+  },
+  {
+    "range": [
+      39,
+      43
+    ],
+    "text": "Mariner�s Armor",
+    "weight": 5
+  },
+  {
+    "range": [
+      44,
+      48
+    ],
+    "text": "Mithral Armor",
+    "weight": 5
+  },
+  {
+    "range": [
+      49,
+      53
+    ],
+    "text": "Potion of Giant Strength (hill)",
+    "weight": 5
+  },
+  {
+    "range": [
+      54,
+      58
+    ],
+    "text": "Potion of Pugilism",
+    "weight": 5
+  },
+  {
+    "range": [
+      59,
+      62
+    ],
+    "text": "Quiver of Ehlonna",
+    "weight": 4
+  },
+  {
+    "range": [
+      63,
+      66
+    ],
+    "text": "Saddle of the Cavalier",
+    "weight": 4
+  },
+  {
+    "range": [
+      67,
+      71
+    ],
+    "text": "Sentinel Shield",
+    "weight": 5
+  },
+  {
+    "range": [
+      72,
+      76
+    ],
+    "text": "Shield, +1",
+    "weight": 5
+  },
+  {
+    "range": [
+      77,
+      81
+    ],
+    "text": "Sword of Vengeance",
+    "weight": 5
+  },
+  {
+    "range": [
+      82,
+      85
+    ],
+    "text": "Trident of Fish Command",
+    "weight": 4
+  },
+  {
+    "range": [
+      86,
+      90
+    ],
+    "text": "Weapon, +1",
+    "weight": 5
+  },
+  {
+    "range": [
+      91,
+      95
+    ],
+    "text": "Weapon of Warning",
+    "weight": 5
+  },
+  {
+    "range": [
+      96,
+      100
+    ],
+    "text": "Wraps of Unarmed Power, +1",
+    "weight": 5
+  }
+]
+}

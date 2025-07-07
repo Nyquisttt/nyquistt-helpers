@@ -1,0 +1,26 @@
+{	
+    "name": "dnd5e2024-skillList",
+    "tablePath": "characters",
+    "values": ["none"],
+    "variables": "name",
+    "valueList":[
+			{"name": "Acrobatics"},
+			{"name": "Animal Handling"},
+			{"name": "Arcana"},
+			{"name": "Athletics"},
+			{"name": "Deception"},
+			{"name": "History"},
+			{"name": "Insight"},
+			{"name": "Intimidation"},
+			{"name": "Investigation"},
+			{"name": "Medicine"},
+			{"name": "Nature"},
+			{"name": "Perception"},
+			{"name": "Performance"},
+			{"name": "Persuasion"},
+			{"name": "Religion"},
+			{"name": "Sleight of Hand"},
+			{"name": "Stealth"},
+			{"name": "Survival"}
+	]
+}

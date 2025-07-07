@@ -1,0 +1,128 @@
+{
+    "name": "classes",
+    "tablePath": "dnd2024",
+    "values": "*",
+    "variables": "classID",
+    "valueList": [
+						{
+							"name": "Barbarian",
+							"ID": 0,
+							"statPrincipale": "Strength",
+							"nSkillChoices": 2,
+							"motto": "Mi piace il furore della battaglia.",
+							"skillSelectable": [0,1,0,1,0,0,0,1,0,0,1,1,0,0,0,0,0,1],
+							"statsRecommended": [15, 13, 14, 10, 12, 8],
+							"armorsWeaponsProfs": [1,1,1,1,0,1,2]
+						},
+						{
+							"name": "Bard", 
+							"ID": 1,
+							"statPrincipale": "Charisma",
+							"nSkillChoices": 3,
+							"motto": "Mi piace guardare un pubblico rapito.",
+							"skillSelectable": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+							"statsRecommended": [8, 14, 12, 13, 10, 15],
+							"armorsWeaponsProfs": [1,0,1,0,0,0,0]
+						},
+						{
+							"name": "Cleric", 
+							"ID": 2,
+							"statPrincipale": "Wisdom",
+							"nSkillChoices": 2,
+							"motto": "Mi piace perdermi nella benedizione divina.",
+							"skillSelectable": [0,0,0,0,0,1,1,0,0,1,0,0,0,1,1,0,0,0],
+							"statsRecommended": [14, 8, 13, 10, 15, 12],
+							"armorsWeaponsProfs": [1,0,1,1,0,1,0]
+						},
+						{
+							"name": "Druid", 
+							"ID": 3,
+							"statPrincipale": "Wisdom",
+							"nSkillChoices": 2,
+							"motto": "Mi piace essere circondato dalla natura.",
+							"skillSelectable": [0,1,1,0,0,0,1,0,0,1,1,1,0,0,1,0,0,1],
+							"statsRecommended": [8, 12, 14, 13, 15, 10],
+							"armorsWeaponsProfs": [1,0,1,0,0,1,0]
+						},
+						{
+							"name": "Fighter", 
+							"ID": 4,
+							"statPrincipale": "Strength or Dexterity",
+							"nSkillChoices": 2,
+							"motto":"Mi piace confondere i nemici con la precisione della mia tecnica.",
+							"skillSelectable": [1,1,0,1,0,1,1,1,0,0,0,1,0,1,0,0,0,1],
+							"statsRecommended": [15, 14, 13, 8, 10, 12],
+							"armorsWeaponsProfs": [1,1,1,1,1,1,3]
+						},
+						{
+							"name": "Monk", 
+							"ID": 5,
+							"statPrincipale": "Dexterity and Wisdom",
+							"nSkillChoices": 2,
+							"motto":"Ho il controllo assoluto del mio corpo.",
+							"skillSelectable": [1,0,0,1,0,1,1,0,0,0,0,0,0,0,1,0,1,0],
+							"statsRecommended": [12, 15, 13, 10, 14, 8],
+							"armorsWeaponsProfs": [1,0.5,0,0,0,0,2]
+						},
+						{
+							"name": "Paladin", 
+							"ID": 6,
+							"statPrincipale": "Strength and Charisma",
+							"nSkillChoices": 2,
+							"motto":"Vivo per realizzare le mie promesse.",
+							"skillSelectable": [0,0,0,1,0,0,1,1,0,1,0,0,0,1,1,0,0,0],
+							"statsRecommended": [15, 10, 13, 8, 12, 14],
+							"armorsWeaponsProfs": [1,1,1,1,1,1,2]
+						},
+						{
+							"name": "Ranger", 
+							"ID": 7,
+							"statPrincipale": "Dexterity and Wisdom",
+							"nSkillChoices": 3,
+							"motto":"Mi piace addentrarmi nei luoghi incontaminati e selvaggi.",
+							"skillSelectable": [0,1,0,1,0,0,1,0,1,0,1,1,0,0,0,0,1,1],
+							"statsRecommended": [12, 15, 13, 8, 14, 10],
+							"armorsWeaponsProfs": [1,1,1,1,0,1,2]
+						},
+						{
+							"name": "Rogue", 
+							"ID": 8,
+							"statPrincipale": "Dexterity",
+							"nSkillChoices": 4,
+							"motto":"Adoro nascondermi e attaccare di soppiatto.",
+							"skillSelectable": [1,0,0,1,1,0,1,1,1,0,0,1,0,1,0,1,1,0],
+							"statsRecommended": [12, 15, 13, 14, 10, 8],
+							"armorsWeaponsProfs": [1,0.5,1,0,0,0,2]
+						},
+						{
+							"name": "Sorcerer", 
+							"ID": 9,
+							"statPrincipale": "Charisma",
+							"nSkillChoices": 2,
+							"motto":"Bramo il potere e anelo il controllo.",
+							"skillSelectable": [0,0,1,0,1,0,1,1,0,0,0,0,0,1,1,0,0,0],
+							"statsRecommended": [10, 13, 14, 8, 12, 15],
+							"armorsWeaponsProfs": [1,0,0,0,0,0,0]
+						},
+						{
+							"name": "Warlock", 
+							"ID": 10,
+							"statPrincipale": "Charisma",
+							"nSkillChoices": 2,
+							"motto":"Sono intrigato da tutto cio' che e' occulto",
+							"skillSelectable": [0,0,1,0,1,1,0,1,1,0,1,0,0,0,1,0,0,0],
+							"statsRecommended": [8, 14, 13, 12, 10, 15],
+							"armorsWeaponsProfs": [1,0,1,0,0,0,0]
+						},
+						{
+							"name": "Wizard", 
+							"ID": 11,
+							"statPrincipale": "Intelligence",
+							"nSkillChoices": 2,
+							"motto":"Adoro i libri. E le biblioteche. E i manuali.",
+							"skillSelectable": [0,0,1,0,0,1,1,0,1,1,0,0,0,0,1,0,0,0],
+							"statsRecommended": [8, 12, 13, 15, 14, 10],
+							"armorsWeaponsProfs": [1,0,0,0,0,0,0]
+						}
+					]
+}

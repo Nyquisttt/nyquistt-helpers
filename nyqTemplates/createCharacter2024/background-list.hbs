@@ -1,0 +1,27 @@
+<div class="BGdivExt">
+<div class="BGdiv" {{#if hideMe}}data-hide='true'{{/if}}>
+<p>
+    La scelta del background fissa 1 tool e 2 skill in cui ottieni proficienza. 
+    Esso inoltre fissa 3 statistiche che puoi incrementare utilizzando 3 punti statistica.
+    Puoi spendere 1 punto su ciascuna delle 3 statistiche oppure spendere 2 punti su una ed 1 punto su un'altra.
+    Non puoi spendere tutti i 3 punti sullla singola statistica.
+    Infine, il background fissa una feat (di tipo Origin) che il tuo personaggio ottiene fin dall'inizio.
+</p>
+  <div class="singleBGHeader">
+        <div>BG Name</div> 
+        <div>Tool</div>
+        <div>Skills</div>
+        <div>Stats</div>
+        <div>Feat</div>
+  </div>
+  {{#each backgrounds}}
+    <div class="singleBG">
+        <div class="singleBGname" data-action="myAction" data-ID="{{this.ID}}" data-selected="{{#if this.selected}}true{{else}}false{{/if}}">{{this.name}}</div> 
+        <div class="singleBGtool">{{this.tool}}</div>
+        <div class="singleBGskills">{{this.skills}}</div>
+        <div class="singleBGstats">{{this.stats}}</div>
+        <div class="singleBGFeat">{{this.feat}}</div>
+    </div>
+  {{/each}}
+</div>
+</div>

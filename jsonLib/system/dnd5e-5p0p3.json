@@ -1,0 +1,50 @@
+{
+    "name": "dnd5e-5p0p3",
+    "tablePath": "system",
+    "values": "*",
+    "variables": "none",
+    "valueList": [
+        {
+            "operationName": "createCharacter",
+            "operationDataNames": [
+                "required.name",
+                "required.type",
+                "required.str",
+                "required.dex",
+                "required.con",
+                "required.int",
+                "required.wis",
+                "required.cha"
+            ],
+            "sequence": [
+                {
+                    "functionName": "actorCreate",
+                    "functionDB": "foundryv13",
+                    "functionData": {
+                        "name": "required.name",
+                        "type": "required.type"
+                    },
+                    "outputManipulator": {
+                        "stored.characterId": "this.id"
+                    }
+                },
+                {
+                    "functionName": "actorStatsUpdate",
+                    "functionDB": "dnd5e-5p0p3",
+                    "functionData": {
+                        "_id": "stored.characterId",
+                        "system.abilities.str": "required.str",
+                        "system.abilities.dex": "required.dex",
+                        "system.abilities.con": "required.con",
+                        "system.abilities.int": "required.int",
+                        "system.abilities.wis": "required.wis",
+                        "system": {"abilities": {"cha": "required.cha"}}
+                    },
+                    "outputManipulator": {
+                        "stored.finalResult": "this"
+                    }
+                }
+            ]
+        }
+    ]
+}
