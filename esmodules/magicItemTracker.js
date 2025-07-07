@@ -19,6 +19,46 @@ const magicItemDistributionFile = {
 //flag used to store info into the item tracker actor and item
 const characterFlagName = "awardedItem"
 const itemFlagName = "isMagicItemTracker"   //either true or false
+/*awardedItem structure
+{
+	"level1": {
+		"minLevel": 1,"maxLevel": 4,
+		"common": {"max": 6,"value": 6},
+		"uncommon": {"max": 4, "value": 0},
+		"rare": {"max": 1,"value": 0},
+		"veryRare": {"max": 0,"value": 0},
+		"legendary": {"max": 0,"value": 0},
+		"artifact": {"max": null,"value": 0}
+	},
+	"level5": {
+		"minLevel": 5, "maxLevel": 10,
+		"common": {"max": 10,"value": 0},
+		"uncommon": {"max": 17,"value": 0},
+		"rare": {"max": 6,"value": 4},
+		"veryRare": {"max": 1,"value": 0},
+		"legendary": {"max": 0,"value": 0},
+		"artifact": {"max": null,"value": 0}
+	},
+	"level11": {
+		"minLevel": 11,"maxLevel": 16,
+		"common": {"max": 3,"value": 0},
+		"uncommon": {"max": 7,"value": 0},
+		"rare": {"max": 11,"value": 0},
+		"veryRare": {"max": 7,"value": 0},
+		"legendary": {"max": 2,"value": 0},
+		"artifact": {"max": null,"value": 0}
+	},
+	"level17": {
+		"minLevel": 17,"maxLevel": null,
+		"common": {"max": 0,"value": 0},
+		"uncommon": {"max": 0,"value": 0},
+		"rare": {"max": 5,"value": 0},
+		"veryRare": {"max": 11,"value": 0},
+		"legendary": {"max": 9,"value": 0},
+		"artifact": {"max": null,"value": 0}
+	}
+}
+*/
 
 /*******************************************************************************
  * PARAMETERS END
