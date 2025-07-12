@@ -20,12 +20,22 @@ function addToApi(pathString, apiObject){
     const theKeysPath = pathString.split('.');
     let newObj = apiConnection[apiName];
     for(var i = 0; i < theKeysPath.length-1; i++){
+        if(theKeysPath[i] === ""){
+            continue
+        }
         if(!newObj[theKeysPath[i]]){
             newObj[theKeysPath[i]] = {};
         }
         newObj = newObj[theKeysPath[i]];
     }
-    newObj[theKeysPath[theKeysPath.length-1]] = apiObject;
+    if(theKeysPath[theKeysPath.length-1].length > 0){
+        newObj[theKeysPath[theKeysPath.length-1]] = apiObject;
+    }
+    else{
+        for(const [key,value] of Object.entries(apiObject)){
+            newObj[key] = value
+        }
+    }
 }
 
 function getFromApi(pathString){

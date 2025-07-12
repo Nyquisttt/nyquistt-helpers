@@ -1,0 +1,27 @@
+{{#each listOfTables}}
+{{#if ../useDetails}}
+<details>
+<summary>{{this.title}}</summary>
+{{/if}}
+<table>
+    <thead>
+        <tr>
+            {{#each this.rows.[0]}}
+            <th>{{@key}}</th>
+            {{/each}}
+        </tr>
+    </thead>
+    <tbody>
+        {{#each this.rows}}
+        <tr>
+            {{#each this}}{{! each element of the object}}
+            <td>{{this}}</td>
+            {{/each}}
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{#if ../useDetails}}
+</details>
+{{/if}}
+{{/each}}

@@ -43,6 +43,12 @@
                 "relics-uncommon.json",
                 "relics-very-rare.json"
             ]
+        },
+        {
+            "folder": ".",
+            "fileList": [
+                "testTable.json"
+            ]
         }
     ]
 }

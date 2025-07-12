@@ -6,7 +6,7 @@
     "valueList": [
 		{"minCR": 0, "plat": "0", "gold": "(2d4)*100", "silver": "0", "copper": "0", "magicItem": "1d4-1"},
 		{"minCR": 5, "plat": "0", "gold": "(8d10)*100", "silver": "0", "copper": "0", "magicItem": "1d3"},
-		{"minCR": 11, "plat": "", "gold": "(8d8)*1000", "silver": "0", "copper": "0", "magicItem": "1d4"},
-		{"minCR": 17, "plat": "", "gold": "(6d10)*10000", "silver": "0", "copper": "0", "magicItem": "1d6"}
+		{"minCR": 11, "plat": "0", "gold": "(8d8)*1000", "silver": "0", "copper": "0", "magicItem": "1d4"},
+		{"minCR": 17, "plat": "0", "gold": "(6d10)*10000", "silver": "0", "copper": "0", "magicItem": "1d6"}
 	]
 }

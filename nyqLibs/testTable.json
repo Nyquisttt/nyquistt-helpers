@@ -1,0 +1,44 @@
+{
+    "name": "testTable",
+    "tablePath": "dnd2024",
+    "values": ["none"],
+    "variables": "*",
+    "valueList":[
+        {
+            "range": [11,14],
+            "text": "text 1",
+            "weight": 4
+        },
+        {
+            "range": [14,14],
+            "text": "overlapped",
+            "weight": 1
+        },
+        {
+            "range": [17,19],
+            "text": "text 7",
+            "weight": 4
+        },
+        {
+            "range": [21,30],
+            "ciccio": "ciccio range",
+            "formaggio": 4
+        },
+        {
+            "weight": 4,
+            "ciccio": "ciccio weight",
+            "formaggio": 4
+        },
+        {
+            "weight": 2,
+            "text": "correct text",
+            "formaggio": 4
+        },
+        {
+            "text": "only text"
+        },
+        {
+            "myType": "completely wrong"
+        }
+	]
+}

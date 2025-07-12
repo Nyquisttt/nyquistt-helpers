@@ -1,0 +1,28 @@
+<details>
+    <summary>{{indentTreeLeaf this.depth}}{{this.name}}</summary>
+    {{#if this.hasActors}}
+    <table>
+        <thead>
+            <tr>
+                {{#each this.actorList.[0]}}
+                <th>{{@key}}</th>
+                {{/each}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each this.actorList}}
+            <tr>
+                {{#each this}}
+                <td>{{this}}</td>
+                {{/each}}
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{/if}}
+    {{#if hasFolder}}
+        {{#each this.folderList}}
+            {{> actorsInSubfoldersPartial }}
+        {{/each}}
+    {{/if}}
+</details>

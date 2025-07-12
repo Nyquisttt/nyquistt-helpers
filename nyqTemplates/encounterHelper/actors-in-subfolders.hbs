@@ -1,0 +1,29 @@
+<h1>Folder Structure</h1>
+<details>
+    <summary>{{indentTreeLeaf depth}}{{name}}</summary>
+    {{#if hasActors}}
+    <table>
+        <thead>
+            <tr>
+                {{#each actorList.[0]}}
+                <th>{{@key}}</th>
+                {{/each}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each actorList}}
+            <tr>
+                {{#each this}}
+                <td>{{this}}</td>
+                {{/each}}
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{/if}}
+    {{#if hasFolder}}
+        {{#each folderList}}
+            {{> actorsInSubfoldersPartial }}
+        {{/each}}
+    {{/if}}
+</details>

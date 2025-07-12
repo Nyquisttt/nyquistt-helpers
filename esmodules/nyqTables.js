@@ -6,6 +6,65 @@ import { filterRepo } from './filterUtils.js';
 
 const preStr = "[nyqTables] ";
 
+class c_filter{
+    #type = "filter"
+    #required = []
+    #operation = (...params) => {return params}
+    #description = "no description"
+    #valid = false
+    get valid(){
+        return this.#valid
+    }
+    constructor(type, required, operation, description = null){
+        const allowedTypes = [
+            {name: 'wholeArray', nParams: 2},
+            {name: 'forOf', nParams: 2},
+            {name: 'filter', nParams: 4},
+            {name: 'reduce', nParams: 5},
+        ]
+        const reqType = allowedTypes.filter(
+            (value, index, array) => {
+                return value.name === type
+            }
+        )
+        if(reqType.length === 0){
+            this.#valid = false
+            return
+        }
+        const expectedNparams = reqType[0].nParams
+        if(typeof operation !== 'function'){
+            this.#valid = false
+            return
+        }
+        if(operation.length !== expectedNparams){
+            this.#valid = false
+            return
+        }
+        if(!Array.isArray(required)){
+            this.#valid = false
+            return
+        }
+        for(const eachRequired of required){
+            if(typeof eachRequired !== 'string'){
+                this.#valid = false
+                return
+            }
+        }
+        if(typeof description !== 'string'){
+            this.#description = null
+        }
+        else{
+            this.#description = description
+        }
+        this.#type = type
+        this.#required = required
+        this.#operation = operation
+        this.#valid = true
+    }
+}
+
+class c_filterSequence{}
+
 class nyqTables{
     static #identityString = "[nyqTables] "
     static #debug(...inputList){
@@ -74,6 +133,7 @@ class nyqTables{
             if(!tableType.includes("rolltable"))
                 tableType.push("rolltable")
         }
+        console.log(tableType)
         const myObject = {fileName: myJson.fileName, filePath: myJson.filePath, tableType: tableType};
         generalUtils.createNestedObjectValue(this.#tablesRoot,leafPath,myObject)
         return "ok"
@@ -149,6 +209,7 @@ class nyqTables{
             this.#debug("operationName",operationName,"singleOperationSequence",singleOperationSequence,"singleOperationData",singleOperationData)
             for(var j = 0; j < singleOperationSequence.length; j++){
                 this.#debug("sequence " + i + " step " + (j+1) + " of " + singleOperationSequence.length)
+                this.#debug("tableValueList:",tableValueList)
                 const singleOperationStep = singleOperationSequence[j];
                 const isAsync = singleOperationStep.isAsync;
                 let singleData = singleOperationData[j];
@@ -268,6 +329,96 @@ class nyqTables{
         return returnList;
     }
 
+	static async csv2array(fileName,splitter,dirName='csv'){
+		const myQuots = ["'", '"'];
+		//fetch del file
+		const response = await fetch(`${nyquisttHelpersModPath}${dirName}/${fileName}`);
+		if (!response.ok) return;
+		let csvText = await response.text();
+		//prima riga
+		let keys = [];
+		let rest = [];
+		let nextRow = [];
+		let keysDone = false;
+		let done = false;
+		while(!done){
+			let nextString = "";
+			//check for the start of a quote
+			let quoted = false;
+			let quoteUsed = "";
+			for(var i = 0; i < myQuots.length; i++){
+				if(csvText.indexOf(myQuots[i]) == 0){
+					quoted = true;
+					quoteUsed = myQuots[i];
+					break;
+				}
+			}
+			if(quoted){
+				//console.log("found a quote")
+				const quotedEnd = csvText.indexOf(quoteUsed,1);
+				nextString = csvText.slice(quoteUsed.length,quotedEnd);
+				csvText = csvText.slice(quotedEnd+1);
+				nextRow.push(nextString);
+				continue;
+			}
+			//check for new line and the splitter
+			let chokeEnd = 0;
+			let nextJump = 0;
+			let newLine = false;
+			const splitterPos = csvText.indexOf(splitter);
+			const newlinePos = csvText.indexOf("\n");
+			if(splitterPos == 0){ //the spitter is the next character
+				csvText = csvText.slice(splitter.length)
+				continue
+			}
+			else if( (newlinePos == -1) && (splitterPos == -1) ) {  //final record with end of file or just end of file
+				console.log("final record or end of file")
+				newLine = true;
+				chokeEnd = csvText.length;
+				nextJump = 0;
+			}
+			else if( (newlinePos != -1) && (splitterPos == -1) ) {
+				newLine = true;
+				chokeEnd = newlinePos;
+				nextJump = "\n".length;
+			}
+			else { // both different from -1
+				newLine = (newlinePos < splitterPos) ? true : false;
+				chokeEnd = (newlinePos < splitterPos) ? newlinePos : splitterPos;
+				nextJump = (newlinePos < splitterPos) ? "\n".length : splitter.length;
+			}
+			nextString = csvText.slice(0,chokeEnd);
+			csvText = csvText.slice(chokeEnd+nextJump);
+			nextRow.push(nextString);
+			if(newLine){
+				if(keysDone) {
+					rest.push(nextRow);
+				}
+				else {
+					for(var i = 0; i < nextRow.length; i++){
+						keys.push(nextRow[i])
+					}
+					keysDone = true;
+				}
+				nextRow = [];
+			}
+			if(csvText.length==0){
+				console.log("end of file")
+				done=true;
+			}
+		}
+		let myResult = [];
+		for(var i = 0; i < rest.length; i++){
+			let myRow = {};
+			for(var j = 0; j < keys.length; j++){
+				myRow[keys[j]] = rest[i][j];
+			}
+			myResult.push(myRow);
+		}
+		return myResult;
+
+	}
+
     /****************************************************************
      * ROLL TABLES
      ****************************************************************/
@@ -373,12 +524,43 @@ class nyqTables{
         return returnList;
     }
 
+    static getTableType(tablePath){
+        const typedObject = generalUtils.searchNestedObjectValue(this.#tablesRoot,tablePath)
+        if(!typedObject) return null;
+        if(typedObject.tableType !== undefined) return typedObject.tableType
+        else return null
+    }
+
+    static getTableOfType(typeName, myObj = null, pathString = ""){
+        if(myObj === null) myObj = this.#tablesRoot
+        let returnList = []
+        if(myObj.tableType !== undefined){
+            if(myObj.tableType.includes(typeName)) returnList.push(pathString)
+        }
+        for(const [key,value] of Object.entries(myObj)){
+            if((key !== "fileName")&&(key !== "filePath")&&(key !== "tableType")&&(key !== "cache")){
+                const newPathString = pathString === "" ? key : pathString + "." + key
+                returnList = returnList.concat(this.getTableOfType(typeName,myObj[key],newPathString))
+            }
+        }
+        return returnList
+    }
+
     static getRootCategories(){
         let returnList = [];
         for(const [key, value] of Object.entries(this.#tablesRoot)){
             returnList.push(key);
         }
         return returnList;
+    }
+
+    static checkTablePath(tablePath){
+        const foundTable = generalUtils.getNestedObjectValue(this.#tablesRoot,tablePath)
+        if(!foundTable) return {check: false}
+        if((foundTable.fileName !== undefined)&&(foundTable.filePath !== undefined)){
+            return {check: true, tableType: generalUtils.createCopy(foundTable.tableType)}
+        }
+        else return {check: false}
     }
 
     static async getFromTable(tableOrTableName,operationData,stored=true){
@@ -410,6 +592,11 @@ class nyqTables{
             }
             returnList.push(newObj)
         }
+        returnList.sort(
+            (a,b) => {
+                return a.name < b.name ? -1 : a.name > b.name ? +1 : 0
+            }
+        )
         return returnList;
     }
 

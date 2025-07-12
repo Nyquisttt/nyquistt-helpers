@@ -222,8 +222,22 @@ const rollExpressions = {
         return await rollExpressionsInKeys.operation(eachRow,data);
     }
 }
+const getTheWholeTable = {
+    type: "wholeArray", required: [], isAsync: false,
+    operation: (wholeArray,data) => {
+        return wholeArray
+    }
+}
+const copyWholeTable = {
+    type: "wholeArray", required: [], isAsync: false,
+    operation: (wholeArray,data) => {
+        return generalUtils.createCopy(wholeArray)
+    }
+}
 
 const filterRepo = {
+    "getTheWholeTable": {operationSequence: [getTheWholeTable]},
+    "copyWholeTable": {operationSequence: [copyWholeTable]},
     "extractValues": {operationSequence: [extractValues]},
     "greaterThan": {operationSequence: [greaterThan]},
     "greaterThanOrEqual": {operationSequence: [greaterThanOrEqual]},
