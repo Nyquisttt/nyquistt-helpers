@@ -8,20 +8,23 @@
       "flags": {}
     }
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "compatibility": {
     "minimum": "13",
     "verified": "13"
   },
   "url": "https://github.com/Nyquisttt/nyquistt-helpers",
   "manifest": "https://raw.githubusercontent.com/Nyquisttt/nyquistt-helpers/refs/heads/main/module.json",
-  "download": "https://github.com/Nyquisttt/nyquistt-helpers/archive/refs/tags/v1.0.0.zip",
+  "download": "https://github.com/Nyquisttt/nyquistt-helpers/archive/refs/tags/v1.0.1.zip",
   "esmodules": [
     "esmodules/nyqMain.js"
   ],
   "styles": [
     {
       "src": "styles/app-choose.css"
+    },
+    {
+      "src": "styles/settings-menu.css"
     }
   ],
   "languages": [

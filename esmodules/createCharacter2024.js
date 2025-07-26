@@ -5,10 +5,12 @@
 const nyqModRef = game.nyqHelp
 console.log(nyqModRef)
 
-const {moduleId, apiFolderName, nyqModPath} = nyqModRef.getApiParameters()
+//const {moduleId, apiFolderName, nyqModPath} = nyqModRef.getApiParameters()
+const {nyqModPath} = nyqModRef.getApiParameters()
 
-const generalUtils = nyqModRef.generalUtils
+//const generalUtils = nyqModRef.generalUtils
 const nyqLog = nyqModRef.nyqLog
+const nyqDebug = nyqModRef.nyqDebug
 const nyqIsDebugging = nyqModRef.nyqIsDebugging
 /********************************************************************************
  * DONT TOUCH THIS - END
@@ -17,6 +19,8 @@ const nyqIsDebugging = nyqModRef.nyqIsDebugging
 /********************************************************************************
  * PARAMETERS
  *******************************************************************************/
+
+const identityString = "createCharacter2024"
 
 //libraries of json files used by magicItemTrackerClass
 const libUsed = [
@@ -102,20 +106,12 @@ const armorWeaponProficiencyFile = {
 
 //utility class
 class createCharacter2024{
-    static #identityString = "[createCharacter2024] "
+    static #identityString = "createCharacter2024"
     static #debug(...inputList){
-        if(!nyqIsDebugging()) return;
-        for(const eachInput of inputList){
-            if(typeof eachInput == "string"){
-                this.#log(eachInput,"debug")
-            }
-            else{
-                console.log(eachInput)
-            }
-        }
+        nyqDebug(this.#identityString,...inputList)
     }
     static #log(myString, type=null){ //only strings
-        nyqLog(this.#identityString + myString.toString(), type)
+        nyqLog(myString.toString(), this.#identityString, type)
     }
     static #debugReport(){
         //this.#debug("magicItemDistribution:",this.#magicItemDistribution)
@@ -267,20 +263,12 @@ const { ApplicationV2: nyqHelpersAppV2, HandlebarsApplicationMixin: nyqHelpersHa
 
 //application class
 class createCharacter2024app extends nyqHelpersHandlebars(nyqHelpersAppV2){
-    #identityString = "[createCharacter2024app] "
+    #identityString = "createCharacter2024app"
     #debug(...inputList){
-        if(!nyqIsDebugging()) return;
-        for(const eachInput of inputList){
-            if(typeof eachInput == "string"){
-                this.#log(eachInput,"debug")
-            }
-            else{
-                console.log(eachInput)
-            }
-        }
+        nyqDebug(this.#identityString, ...inputList)
     }
     #log(myString, type=null){ //only strings
-        nyqLog(this.#identityString + myString.toString(), type)
+        nyqLog(myString.toString(), this.#identityString, type)
     }
     #debugReport(){
         //this.#debug("internal structure",this)

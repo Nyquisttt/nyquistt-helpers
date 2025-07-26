@@ -2,6 +2,7 @@ import * as nyqGeneralConfig from './nyqGeneralConfig.js';
 import {nyqLog} from './logging.js';
 
 const preStr = "[nyqFileUtils] ";
+const identityString = "nyqFileUtils"
 
 //import fs from 'fs';
 //import path from 'path';
@@ -14,17 +15,17 @@ async function* iterateJsonLibrary(libFile) {
 //    yield cancella[i]
 //  }
 //  return
-  nyqLog(preStr + "trying iterating library " + libFile)
+  nyqLog("trying iterating library " + libFile, identityString)
   const slashPosiz = libFile.lastIndexOf("/");
   const filePath = libFile.slice(0,slashPosiz);
   const fileName = libFile.slice(slashPosiz+1);
   const readJson = await readJsonFile(fileName,filePath);
   if(!Object.keys(readJson).length){
-    nyqLog(preStr + "the library file is empty")
+    nyqLog("the library file is empty", identityString)
     yield [undefined, undefined]
   }
   else if(!readJson.fileList){
-    nyqLog(preStr + "the lib file is not properly formatted")
+    nyqLog("the lib file is not properly formatted", identityString)
     yield [undefined, undefined]
   }
   else{
@@ -59,7 +60,7 @@ function cleanNames(initName){
 }
 
 async function readJsonFile(fileName, filePath = `${nyqGeneralConfig.nyqModPath}/jsons`){
-  nyqLog(preStr + "fetching file " + fileName + " in " + filePath)
+  nyqLog("fetching file " + fileName + " in " + filePath, identityString)
   const slashPosiz = filePath.lastIndexOf("/");
   if(slashPosiz == filePath.length-1) filePath = filePath.slice(0,slashPosiz); //without slash
   let jsonText = {};
@@ -68,7 +69,7 @@ async function readJsonFile(fileName, filePath = `${nyqGeneralConfig.nyqModPath}
       if (!fetchResponse.ok) throw new Error('file cannot be fetched');
       jsonText = await fetchResponse.text();
   } catch (fetchError) {
-      nyqLog(preStr + "JSON file fetch failed with error: " + fetchError,'error');
+      nyqLog("JSON file fetch failed with error: " + fetchError,identityString,'error');
       return {};
   }
   let myJson = JSON.parse(jsonText);
@@ -87,14 +88,14 @@ async function readListOfJsonFiles(fileList){
     const slashPosiz = eachFile.lastIndexOf("/");
     const jsonPosiz = eachFile.lastIndexOf(".json");
     if(jsonPosiz != eachFile.length-5){
-      nyqLog(preStr + "skipping non json file " + eachFile,"warn")
+      nyqLog("skipping non json file " + eachFile, identityString,"warn")
       continue;
     }
     if( slashPosiz == -1) {
       myFile = eachFile;
     }
     else if(slashPosiz == eachFile.length-1){
-      nyqLog(preStr + "skipping file " + eachFile,"warn")
+      nyqLog("skipping file " + eachFile,identityString,"warn")
       continue;
     }
     else{
@@ -107,5 +108,48 @@ async function readListOfJsonFiles(fileList){
   return myList;
 }
 
+async function handlerFilePickerSaveFile(pathString, filePickerObj){
+    //console.log(pathString, filePickerObj)
+    const uploadUrl = "/upload"
+    let mySource = null
+    for(const [key,value] of Object.entries(filePickerObj.sources)){
+        if(value.target !== undefined && value.target === pathString){
+            mySource = key
+            break
+        }
+    }
+    const myFile = filePickerObj.nyqData.file
 
-export { iterateJsonLibrary, cleanNames, readJsonFile, readListOfJsonFiles }
+    const myFormData = new FormData()
+    myFormData.set("source", mySource);
+    myFormData.set("target", pathString);
+    myFormData.set("upload", myFile);
+    const myMethod =  "POST" //"PUT" // 
+    const request1 = new Request(uploadUrl,{
+        method: myMethod,
+        body: myFormData,
+    })
+    
+    const myRes = await fetch(request1)
+    const response = await myRes.json()
+    //console.log(response)
+    const {yepResolve, nopeReject} = filePickerObj.nyqPromise
+    if(response.status === "success") yepResolve(response);
+    else nopeReject(response)
+}
+
+async function saveObjectToFile(fileObject, fileName) {
+  const myFile = new File([JSON.stringify(fileObject, null, " ")],fileName,{type: "application/json"})
+  let myFilePicker = new foundry.applications.apps.FilePicker.implementation({callback: handlerFilePickerSaveFile, type: "folder", title: "Pick the folder"})
+  //used to pass the this of the caller dialog to the picker funciton
+  myFilePicker.nyqData = {file: myFile}
+  //create the promise
+  let { promise: fileIsWritten, resolve: yepResolve, reject: nopeReject } = Promise.withResolvers();
+  myFilePicker.nyqPromise = {yepResolve: yepResolve, nopeReject: nopeReject}
+  const pickerResult = await myFilePicker.render(true)
+  return await fileIsWritten
+  
+}
+
+
+export { iterateJsonLibrary, cleanNames, readJsonFile, readListOfJsonFiles, saveObjectToFile }

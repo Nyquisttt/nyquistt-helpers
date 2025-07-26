@@ -1,0 +1,92 @@
+/*on app creation this class is added to the .window-content element*/
+.nyqWindowContent{
+    overflow-y: scroll; /* Vertical scroll */
+}
+
+/*properties declaration*/
+@property --nyq-box-height {
+  syntax: "<dimension>";
+  initial-value: 200px;
+  inherits: false;
+}
+@property --nyq-border-color{
+    syntax: "<color>";
+    initial-value: purple;
+    inherits: false;
+}
+@property --nyq-bg-color{
+    syntax: "<color>";
+    initial-value: darkslategray;
+    inherits: false;
+}
+
+/* dimensions of height-limited boxes*/
+.heightSmall{
+    --nyq-box-height: 200px;
+}
+.heightMedium{
+    --nyq-box-height: 400px;
+}
+.heightLong{
+    --nyq-box-height: 600pxx;
+}
+/* BG colors */
+.nyqBgDarkslategray{
+    --nyq-bg-color: darkslategray;
+}
+/* border colors */
+.nyqBorderPurple{
+    --nyq-border-color: purple;
+}
+
+/*selectors*/
+.divSettingsHeader{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+}
+.divWithBorderAndPadding{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+    border-color: var(--nyq-border-color);
+    border-width: 2px;
+    border-style: solid;
+}
+.divWithPadding{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.divWithBorder{
+    border-radius: 10px;
+    border-color: var(--nyq-border-color);
+    border-width: 2px;
+    border-style: solid;
+}
+.divBox{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: var(--nyq-box-height);
+    border: var(--nyq-border-color);
+    background-color: var(--nyq-bg-color);
+    overflow-y: scroll;
+}
+.divSingleKnownModule{
+    display: grid;
+    grid-template-columns: 20% 40% 20% 20%;
+}
+.divSinglePreloadLibrary{
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+}
+.divSinglePreloadFunctionLibrary{
+    display: grid;
+    grid-template-columns: 70% 30%;
+}
+.divExecPreload{
+    display: grid;
+    grid-template-columns: 30px 150px;
+}
+.textBoxColored{
+    background-color: var(--nyq-bg-color);
+}

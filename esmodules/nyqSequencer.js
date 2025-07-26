@@ -1,11 +1,6 @@
 import * as nyqGeneralConfig from './nyqGeneralConfig.js';
-import {nyqLog, nyqIsDebugging} from './logging.js';
+import {nyqLog, nyqDebug} from './logging.js';
 import * as generalUtils from './generalUtils.js'
-
-const preStr = "[nyqFunctionVault] ";
-function thisLog(myString, type = null){
-    nyqLog(preStr + myString,type)
-}
 
 /**
  * the functions stored in the functionVault receive a single input object (functionData)
@@ -74,20 +69,12 @@ function thisLog(myString, type = null){
  * outputDataMap: an object mapping the output returned by the function into the sequence context Data (sequenceData)
  */
 class c_sequenceElement{
-    #identityString = "[sequenceElement] "
+    #identityString = "sequenceElement"
     #debug(...inputList){
-        if(!nyqIsDebugging()) return;
-        for(const eachInput of inputList){
-            if(typeof eachInput == "string"){
-                this.#log(eachInput,"debug")
-            }
-            else{
-                console.log(eachInput)
-            }
-        }
+        nyqDebug(this.#identityString, ...inputList)
     }
     #log(myString, type=null){ //only strings
-        nyqLog(this.#identityString + myString.toString(), type)
+        nyqLog(myString.toString(), this.#identityString, type)
     }
     #debugReport(){
         this.#debug("internal structure",this)
@@ -99,6 +86,15 @@ class c_sequenceElement{
     delay = 0;
     #valid = false
     get valid(){return this.#valid}
+    /**
+     * 
+     * @param {string} fName 
+     * @param {string} fDB 
+     * @param {object} inMap 
+     * @param {object} outMap 
+     * @param {undefined | number} delay 
+     * @returns 
+     */
     constructor(fName,fDB,inMap,outMap,delay){
         this.#debug("constructor called with fName,fDB,inMap,outMap,delay:",fName,fDB,inMap,outMap,delay)
         if(typeof fName !== 'string') {
@@ -131,20 +127,12 @@ class c_sequenceElement{
  * also provides the requestSequenceElement function used to request the execution of other functions within the current sequence
  */
 class c_functionContext{
-    #identityString = "[functionContext] "
+    #identityString = "functionContext"
     #debug(...inputList){
-        if(!nyqIsDebugging()) return;
-        for(const eachInput of inputList){
-            if(typeof eachInput == "string"){
-                this.#log(eachInput,"debug")
-            }
-            else{
-                console.log(eachInput)
-            }
-        }
+        nyqDebug(this.#identityString, ...inputList)
     }
     #log(myString, type=null){ //only strings
-        nyqLog(this.#identityString + myString.toString(), type)
+        nyqLog(myString.toString(), this.#identityString, type)
     }
     #debugReport(){
         this.#debug("internal structure",this)
@@ -164,19 +152,28 @@ class c_functionContext{
         this.#requestedSequenceElements.push(elementData)
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         return
-        const newSequenceElement = new c_sequenceElement(fName,fDB,inMap,outMap,delay);
-        if (newSequenceElement.valid) {
-            this.#requestedSequenceElements.push(newSequenceElement)
-        }
     };
     get requestedSequenceElements(){
         return this.#requestedSequenceElements;
     }
+    /**
+     * 
+     * @param {Function} functionRef 
+     */
     constructor(functionRef){
         this.executable = functionRef;
         this.#debugReport()
     }
 }
+
+/**
+ * @typedef {object} functionObject
+ * @property {string} name
+ * @property {string} db
+ * @property {boolean} isAsync
+ * @property {string[]} requires
+ * @property {Function} executable
+ */
 
 /**
  * the single function object
@@ -195,20 +192,12 @@ class c_functionContext{
  *      the function also returns the list of requested functions to be executed within the current sequence
  */
 class c_singleFunction{
-    #identityString = "[singleFunction] "
+    #identityString = "singleFunction"
     #debug(...inputList){
-        if(!nyqIsDebugging()) return;
-        for(const eachInput of inputList){
-            if(typeof eachInput == "string"){
-                this.#log(eachInput,"debug")
-            }
-            else{
-                console.log(eachInput)
-            }
-        }
+        nyqDebug(this.#identityString, ...inputList)
     }
     #log(myString, type=null){ //only strings
-        nyqLog(this.#identityString + myString.toString(), type)
+        nyqLog(myString.toString(), this.#identityString, type)
     }
     #debugReport(){
         this.#debug("internal structure",this)
@@ -266,6 +255,11 @@ class c_singleFunction{
     get constructorError(){
         return this.#constructorError;
     }
+    /**
+     * 
+     * @param {functionObject} funcObject 
+     * @returns 
+     */
     constructor(funcObject){
         if(!this.#checkObject(funcObject)) return;
         this.#valid = true;
@@ -302,20 +296,12 @@ class c_singleFunction{
  *      fDB: the name of the DB used to store the function
  */
 class nyqFunctionVault {
-    static #identityString = "[nyqFunctionVault] "
+    static #identityString = "nyqFunctionVault"
     static #debug(...inputList){
-        if(!nyqIsDebugging()) return;
-        for(const eachInput of inputList){
-            if(typeof eachInput == "string"){
-                this.#log(eachInput,"debug")
-            }
-            else{
-                console.log(eachInput)
-            }
-        }
+        nyqDebug(this.#identityString, ...inputList)
     }
     static #log(myString, type=null){ //only strings
-        nyqLog(this.#identityString + myString.toString(), type)
+        nyqLog(myString.toString(), this.#identityString, type)
     }
     static #debugReport(){
         //this.#debug("internal structure",this)
@@ -324,7 +310,9 @@ class nyqFunctionVault {
     static pleaseReport(){
         this.#debugReport()
     }
+    /** @type {Object.<string,c_singleFunction[]>} */
     static #functionList = {};
+    /** @type {string[]} */
     static #readLibraries = [];
     static {
         this.#addToFunctionVault(nyqGeneralConfig.nyqModPath + "/esmodules/nyqFunctionList.js")
@@ -332,17 +320,21 @@ class nyqFunctionVault {
         //console.log(this.#functionList)
     }
     static async #addToFunctionVault(fileName, force = false){ //fileName is someting like modules/nyquistt-helpers/esmodules/something.js
+        let error = "", warning = "", success = false
         if(!(typeof fileName == 'string')){
-            this.#log("you must provide a string for the fileName","error")
-            return
+            error = "you must provide a string for the fileName"
+            this.#log(error,"error")
+            return {error: error, warning: warning, success: success}
         }
         if(fileName.lastIndexOf(".js") != fileName.length-3){
-            this.#log("you must provide a js file","error")
-            return
+            error = "you must provide a js file"
+            this.#log(error,"error")
+            return {error: error, warning: warning, success: success}
         }
         if(this.#readLibraries.includes(fileName) && (!force)) {
-            this.#log("module already imported","warn")
-            return;
+            warning = "module already imported"
+            this.#log(warning,"warn")
+            return {error: error, warning: warning, success: success}
         }
         const importRoot = nyqGeneralConfig.importRoot
         this.#log("importing function list at " + fileName)
@@ -350,12 +342,14 @@ class nyqFunctionVault {
         if(!this.#readLibraries.includes(fileName)) this.#readLibraries.push(fileName)
         //console.log(ExportedFunctionList);
         if(!Array.isArray(ExportedFunctionList)){
-            this.#log("invalid module content","error")
-            return
+            error = "invalid module content"
+            this.#log(error,"error")
+            return {error: error, warning: warning, success: success}
         }
         for(const eachFunction of ExportedFunctionList){
             const newFunction = new c_singleFunction(eachFunction);
             if (!newFunction.valid){
+                warning += "[" + "skipping function with error: " + newFunction.constructorError + "]"
                 this.#log("skipping function with error: " + newFunction.constructorError,"warn")
                 continue
             }
@@ -367,20 +361,24 @@ class nyqFunctionVault {
                 }
             )
             if(alreadyLoaded.length){
-                this.#log("skipping already loaded function " + newFunction.name)
+                warning += "[" + "skipping already loaded function " + newFunction.name + "]"
+                this.#log("skipping already loaded function " + newFunction.name,"warn")
                 continue
             }
             this.#log("loading function " + newFunction.name)
             db.push(newFunction);
         }
+        success = true
+        return {error: error, warning: warning, success: success}
     }
     static async checkFunctionModule(fileName,force=false){
         if( (!force) && (this.#readLibraries.includes(fileName)) ) {
             this.#log("module " + fileName + " already acquired")
-            return
+            return {error: "", warning: "module " + fileName + " already acquired", success: false}
         };
-        await this.#addToFunctionVault(fileName,force)
+        const addResult = await this.#addToFunctionVault(fileName,force)
         this.#debugReport()
+        return addResult
     }
     static getFunc(fName, fDB = null){
         let retFunc = null;
@@ -417,23 +415,49 @@ class nyqFunctionVault {
         }
         return [retFunc, fDB];
     }
-}
-
-class c_sequence{
-    #identityString = "[sequence] "
-    #debug(...inputList){
-        if(!nyqIsDebugging()) return;
-        for(const eachInput of inputList){
-            if(typeof eachInput == "string"){
-                this.#log(eachInput,"debug")
-            }
-            else{
-                console.log(eachInput)
+    static listStoredFuntions(){
+        let resultList = []
+        for(const [dbName, funcList] of Object.entries(this.#functionList)){
+            for(const eachFunction of funcList){
+                resultList.push({
+                    dbName: dbName,
+                    functionName: eachFunction.name,
+                    isAsync: eachFunction.isAsync,
+                    requires: generalUtils.createCopy(eachFunction.requires)
+                })
             }
         }
+        return resultList
+    }
+    static listReadLibraries(){
+        let resultList = []
+        for(const eachLibrary of this.#readLibraries){
+            resultList.push(eachLibrary.toString())
+        }
+        return resultList
+    }
+}
+
+/**
+ * @typedef {object} elementData
+ * @property {string} fName
+ * @property {string} functionName
+ * @property {string} fDB
+ * @property {string} functionDB
+ * @property {object} outputDataMap
+ * @property {number} delay
+ * @property {object} functionData
+ * @property {object} inputDataMap
+ */
+
+
+class c_sequence{
+    #identityString = "sequence"
+    #debug(...inputList){
+        nyqDebug(this.#identityString, ...inputList)
     }
     #log(myString, type=null){ //only strings
-        nyqLog(this.#identityString + myString.toString(), type)
+        nyqLog(myString.toString(), this.#identityString, type)
     }
     #debugReport(){
         //this.#debug("internal structure",this)
@@ -471,6 +495,11 @@ class c_sequence{
     #disappear(){
         this.#creator.deleteMe(this.#myId)
     }
+    /**
+     * 
+     * @param {elementData} elementData 
+     * @returns 
+     */
     #assembleSequenceElemnt(elementData){
         this.#debug("assembleSequenceElement called with","elementData:",elementData)
         let resultOk = true;
@@ -534,6 +563,11 @@ class c_sequence{
         sequenceElement = new c_sequenceElement(fName,actualDB,actualInputDataMap,actualOutputDataMap,delay)
         return {sequenceElement: sequenceElement, resultOk: resultOk, sequenceData: sequenceData}
     }
+    /**
+     * 
+     * @param {elementData} elementData 
+     * @returns {{fName: string, fDB: string, sequenceID: string, resultOk: boolean}}
+     */
     checkAndAddSequenceElement(elementData){
         const assembledResult = this.#assembleSequenceElemnt(elementData)
         const sequenceElement = assembledResult.sequenceElement;
@@ -548,6 +582,10 @@ class c_sequence{
         }
         return {fName: sequenceElement.functionName, fDB: sequenceElement.functionDB, sequenceID: this.#myId, resultOk: resultOk}
     }
+    /**
+     * 
+     * @param {c_sequenceElement} newElement 
+     */
     addSequenceElement(newElement){
         this.#debug("addSequenceElement called with newElement:",newElement)
         if((newElement.delay === undefined) || (newElement.delay === null)){
@@ -598,46 +636,24 @@ class c_sequence{
     }
 }
 
-function UUIDwithDate(){
-    return Date.now()
-}
-
-function UUIDv4(){
-    const baseString = 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'
-    const UUIDversion = 4 
-    const variantFixedBits= 0x8
-    const variantRandomBitsMask= 0x3
-    const newString = baseString.replace(/[xMN]/g, function(myCharacter){
-        const myRandom = Math.random() * 16 | 0
-        const myValue = myCharacter == 'M' ? UUIDversion : myCharacter == 'x' ? myRandom : (myRandom & variantRandomBitsMask) | variantFixedBits ;
-        return myValue.toString(16)
-    })
-    return newString;
-}
-
 /**
  * the static methods and properties of this class are used to create and execute sequences of functions
  */
 class nyqSequencer{
-    static #identityString = "[nyqSequencer] "
+    static #identityString = "nyqSequencer"
     static #debug(...inputList){
-        if(!nyqIsDebugging()) return;
-        for(const eachInput of inputList){
-            if(typeof eachInput == "string"){
-                this.#log(eachInput,"debug")
-            }
-            else{
-                console.log(eachInput)
-            }
-        }
+        nyqDebug(this.#identityString, ...inputList)
     }
     static #log(myString, type=null){ //only strings
-        nyqLog(this.#identityString + myString.toString(), type)
+        nyqLog(myString.toString(), this.#identityString, type)
     }
     static #debugReport(){
         //this.#debug("internal structure",this)
         this.#debug("sequence list:",this.#sequenceList)
     }
+    /**
+     * @type {Object.<string, c_sequence>}
+     */
     static #sequenceList= {}
     static pleaseReport(){
         this.#debugReport()
@@ -649,9 +665,15 @@ class nyqSequencer{
             delete this.#sequenceList[id]
         }
     }
+    /**
+     * 
+     * @param {elementData | elementData[]} sequenceElementOrList 
+     * @param {object} sequenceData 
+     * @returns 
+     */
     static createSequence(sequenceElementOrList, sequenceData = {}){
         this.#debug("createSequence called with","sequenceElementOrList:",sequenceElementOrList, "sequenceData:", sequenceData)
-        const uuid = UUIDv4();
+        const uuid = generalUtils.UUIDv4();
         const newSequence = new c_sequence(this, uuid, sequenceData);
         this.#sequenceList[uuid] = newSequence
         let resultOk, sequenceID = uuid;
@@ -663,18 +685,6 @@ class nyqSequencer{
                 fName = checkResult.fName
                 fDB = checkResult.fDB
                 resultOk = checkResult.resultOk
-                /*
-                const assembledResult = this.#assembleSequenceElemnt(eachElement)
-                sequenceElement = assembledResult.sequenceElement;
-                resultOk = assembledResult.resultOk;
-                sequenceDataAdd = assembledResult.sequenceData
-                if(resultOk){
-                    newSequence.addSequenceElement(sequenceElement)
-                    if(sequenceDataAdd !== null){
-                        newSequence.addToSequenceData(sequenceDataAdd);
-                    }
-                }
-                */
             }
         }
         else{
@@ -682,23 +692,16 @@ class nyqSequencer{
             fName = checkResult.fName
             fDB = checkResult.fDB
             resultOk = checkResult.resultOk
-            /*
-            const assembledResult = this.#assembleSequenceElemnt(sequenceElementOrList)
-            sequenceElement = assembledResult.sequenceElement;
-            resultOk = assembledResult.resultOk;
-            sequenceDataAdd = assembledResult.sequenceData
-            if(resultOk){
-                newSequence.addSequenceElement(sequenceElement)
-                if(sequenceDataAdd !== null){
-                    newSequence.addToSequenceData(sequenceDataAdd);
-                }
-            }
-            */
         }
         this.#debugReport()
         return {fName: fName, fDB: fDB, sequenceID: sequenceID}
-        return uuid
     }
+    /**
+     * 
+     * @param {elementData | elementData[]} sequenceElementOrList 
+     * @param {null | string} id 
+     * @returns 
+     */
     static addSequenceElement(sequenceElementOrList, id=null){
         this.#debug("addSequenceElement called with", "sequenceElementOrList:", sequenceElementOrList, "id:", id)
         if(id == null) {
@@ -710,23 +713,10 @@ class nyqSequencer{
             let fName,fDB
             if(Array.isArray(sequenceElementOrList)){
                 for(const eachElement of sequenceElementOrList){
-                    //return {fName: sequenceElement.functionName, fDB: sequenceElement.functionDB, sequenceID: this.#myId, resultOk: resultOk}
                     const checkResult = this.#sequenceList[id].checkAndAddSequenceElement(eachElement)
                     fName = checkResult.fName
                     fDB = checkResult.fDB
                     resultOk = checkResult.resultOk
-                    /*
-                    const assembledResult = this.#assembleSequenceElemnt(eachElement)
-                    sequenceElement = assembledResult.sequenceElement;
-                    resultOk = assembledResult.resultOk
-                    sequenceDataAdd = assembledResult.sequenceData
-                    if(resultOk){
-                        this.#sequenceList[id].addSequenceElement(sequenceElement)
-                        if(sequenceDataAdd !== null){
-                            this.#sequenceList[id].addToSequenceData(sequenceDataAdd)
-                        }
-                    }
-                    */
                 }
             }
             else {
@@ -734,18 +724,6 @@ class nyqSequencer{
                 fName = checkResult.fName
                 fDB = checkResult.fDB
                 resultOk = checkResult.resultOk
-                /*
-                const assembledResult = this.#assembleSequenceElemnt(sequenceElementOrList)
-                sequenceElement = assembledResult.sequenceElement
-                resultOk = assembledResult.resultOk
-                sequenceDataAdd = assembledResult.sequenceData
-                if(resultOk){
-                    this.#sequenceList[id].addSequenceElement(sequenceElement)
-                    if(sequenceDataAdd !== null){
-                        this.#sequenceList[id].addToSequenceData(sequenceDataAdd)
-                    }
-                }
-                */
             }
             this.#debugReport()
             return {fName: fName, fDB: fDB, sequenceID: sequenceID}
@@ -771,69 +749,178 @@ class nyqSequencer{
         this.#debug("addSingleFunction called with","functionInfo:",functionInfo)
         let sequenceID = functionInfo.sequenceID || null;
         return this.addSequenceElement(functionInfo,sequenceID)
-        /*let sequenceIsNew = false;
-        let {fName, fDB, sequenceID, inputDataMap, outputDataMap, functionData, delay} = functionInfo
-        if((sequenceID === undefined) || (this.#sequenceList[sequenceID] === undefined)){
-            sequenceID = this.createSequence([],{})
-            sequenceIsNew = true
+    }
+    static getAvailableFunctions(){
+        return nyqFunctionVault.listStoredFuntions()
+    }
+    static getReadLibraries(){
+        return nyqFunctionVault.listReadLibraries()
+    }
+    static async useFunctionModule(fileName, force = false){
+        return await nyqFunctionVault.checkFunctionModule(fileName, force)
+    }
+}
+
+/********************************************************************************
+ * HOOKS: this is to store and retrieve config values through the foundryvtt settings
+ ********************************************************************************/
+/** @type {string[]} */
+let preLoadFunctions = []
+Hooks.on("init", async function(){
+    /**
+     * as it seems, settings must be registered at any init of the environment
+     * their content is persistent but the game.settings does not mantain previously registered settings
+     */
+    const preLoadFunctions = {
+        name: "Pre-load functions",
+        hint: "the list of function modules and their location",
+        scope: "world",      // This specifies a world-level setting
+        config: false,        // This specifies that the setting appears in the configuration view
+        requiresReload: true, // This will prompt the GM to have all clients reload the application for the setting to take effect
+        default: [],
+        onChange: value => {
+            console.log("Pre-load functions has been changed:")
+            console.log(value)
+        },
+        type: new foundry.data.fields.ArrayField(new foundry.data.fields.StringField, {nullable: false})
+    }
+    await game.settings.register(nyqGeneralConfig.moduleId, 'preLoadFunctions', preLoadFunctions)
+    const menuData = {
+        name: "Preload functions Menu",
+        label: "Functions",
+        hint: 'Here you will be able to change the list of function libraries to pre-load',
+        icon: "fa-solid fa-user-plus",
+        restricted: true,
+        type: settingsFuncMenuApp,
+    }
+    game.settings.registerMenu(nyqGeneralConfig.moduleId, "settingsMenuNyqFunctionVault", menuData)
+})
+
+Hooks.on("setup", function(){
+    preLoadFunctions = game.settings.get('nyquistt-helpers',"preLoadFunctions")
+})
+
+Hooks.on("ready", function(){
+    for(const eachFunctionModule of preLoadFunctions){
+        nyqFunctionVault.checkFunctionModule(eachFunctionModule)
+    }
+})
+
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api
+class settingsFuncMenuApp extends HandlebarsApplicationMixin(ApplicationV2){
+    static newPreLoadFunctions = []
+    static IamInitialized = false
+    static async getSettings(){
+        this.newPreLoadFunctions = []
+        const storedPreLoadFunctions = await game.settings.get('nyquistt-helpers',"preLoadFunctions")
+        for(const eachKnown of storedPreLoadFunctions){
+            this.newPreLoadFunctions.push(eachKnown)
         }
-        if((fName === undefined)||(fName === null)){
-            this.#log("you must provide fName","error")
-            if(sequenceIsNew){
-                this.deleteMe(sequenceID)
+    }
+    static async initMe(){
+        await this.getSettings()
+        this.IamInitialized = true
+    }
+    static async pickFile(pathString, filePickerObj){
+        //attached to the filePicker: this refers to the filePicker and not to the class
+        settingsFuncMenuApp.newPreLoadFunctions.push(pathString)
+        await filePickerObj.nyqCaller.pleaseRender(['funcFiles'])
+        console.log("pathString")
+        console.log(pathString)
+        console.log("newPreLoadFunctions")
+        console.log(settingsFuncMenuApp.newPreLoadFunctions)
+        return {pickFileResult: true}
+    }
+    async pleaseRender(partList = []){
+        this.render(
+            {
+                force: true,
+                parts: partList,
             }
-            return {fName: null, fDB: null, sequenceID: null}
+        )
+    }
+    static async myAction(event, target){
+        //attached to the window: this refers to the window and not to the class
+        //console.log(event)
+        //console.log(target)
+        const clickedElement = target.getAttribute("Class");
+        switch(clickedElement){
+            case 'btnDeleteLib':
+                settingsFuncMenuApp.newPreLoadFunctions.splice(parseInt(target.getAttribute("data-id")),1)
+                this.pleaseRender(['funcFiles'])
+                break
+            case "btnPickFile":
+                let myFilePicker = new foundry.applications.apps.FilePicker.implementation({callback: settingsFuncMenuApp.pickFile})
+                //used to pass the this of the caller dialog to the picker funciton
+                myFilePicker.nyqCaller = this
+                myFilePicker.extensions = [".js"]
+                const pickerResult = await myFilePicker.render(true)
+                //console.log(pickerResult)
+                //this.render(true)
+                break
+            case "btnUpdateChoices":
+                let html_newPreLoadFunctions = []
+                const filePathList = this.element.querySelectorAll('.inputFilePath')
+                for(const eachPath of filePathList){
+                    html_newPreLoadFunctions[parseInt(eachPath.getAttribute("data-id"))] = eachPath.value
+                }
+                console.log("html_newPreLoadFunctions")
+                console.log(html_newPreLoadFunctions)
+                await game.settings.set('nyquistt-helpers',"preLoadFunctions",html_newPreLoadFunctions)
+                settingsFuncMenuApp.IamInitialized = false
+                //this.render(true)
+                this.pleaseRender()
+                break
         }
-        fDB = fDB == undefined ? null : fDB;
-        const [foundFunction, actualDB] = nyqFunctionVault.getFunc(fName, fDB)
-        if(foundFunction === null){
-            this.#log("cannot find the function " + fName,"warn")
-            if(sequenceIsNew){
-                this.deleteMe(sequenceID)
-            }
-            return {fName: fName, fDB: fDB, sequenceID: sequenceID}
+    }
+    static PARTS = {
+        header: { template: `${nyqGeneralConfig.nyqModPath}/templates/settings-nyqFunctionVault-header.hbs`},
+        funcFiles: {template: `${nyqGeneralConfig.nyqModPath}/templates/settings-nyqFunctionVault-libFiles.hbs`},
+        pickNewLibFile: {template: `${nyqGeneralConfig.nyqModPath}/templates/settings-nyqFunctionVault-pickFile.hbs`},
+        footer: {template: `${nyqGeneralConfig.nyqModPath}/templates/settings-nyqFunctionVault-footer.hbs`},
+    }
+    static DEFAULT_OPTIONS = {
+		position: {
+			left: 100,
+			width: 800,
+			height: 400,
+		},
+		window: {
+			resizable: true,
+			title: "Set the options",
+			icon: "fa-solid fa-user-plus",
+			contentClasses: ['nyqWindowContent'],
+		},
+		actions: {
+			myAction: settingsFuncMenuApp.myAction
+		}
+	}
+    _configureRenderOptions(options){
+		super._configureRenderOptions(options);
+		options.parts = [];
+		options.parts.push('header');
+        options.parts.push('funcFiles');
+        options.parts.push('pickNewLibFile')
+        options.parts.push('footer');
+	}
+    async _preparePartContext(partId, context){
+        switch(partId){
+            case 'header':
+                break
+            case 'funcFiles':
+                if(!settingsFuncMenuApp.IamInitialized){
+                    console.log("need to initialize libFiles")
+                    await settingsFuncMenuApp.initMe();
+                }
+                context = {
+                    boxDimensionClass: "heightSmall",
+                    preLoadFunctions: settingsFuncMenuApp.newPreLoadFunctions,
+                }
+                break
+            case 'footer':
+                break
         }
-        let actualOutputDataMap;
-        if(outputDataMap === undefined){
-            actualOutputDataMap = {
-                store: {}
-            }
-            actualOutputDataMap.store[fName] = "freturn"
-        }
-        else{
-            actualOutputDataMap = {}
-            generalUtils.flattenObject(actualOutputDataMap,outputDataMap);
-        }
-        if(delay === undefined){
-            delay = -1
-        }
-        let actualInputDataMap;
-        if((functionData !== undefined) && (inputDataMap !== undefined)){
-            this.#sequenceList[sequenceID].addToSequenceData(functionData)
-            actualInputDataMap = {}
-            generalUtils.flattenObject(actualInputDataMap,inputDataMap)
-        }
-        else if((functionData !== undefined)&&(inputDataMap === undefined)){
-            actualInputDataMap = {}
-            const sequenceData = {}
-            sequenceData[fName] = {}
-            for(const [key, value] of Object.entries(functionData)){
-                sequenceData[fName][key] = value;
-                actualInputDataMap[key] = fName + "." + key
-            }
-            this.#sequenceList[sequenceID].addToSequenceData(sequenceData)
-        }
-        else if((functionData === undefined)&&(inputDataMap !== undefined)){
-            actualInputDataMap = {}
-            generalUtils.flattenObject(actualInputDataMap,inputDataMap)
-        }
-        else{
-            actualInputDataMap = {}
-        }
-        let newElement = new c_sequenceElement(fName,actualDB,actualInputDataMap,actualOutputDataMap,delay)
-        this.#sequenceList[sequenceID].addSequenceElement(newElement)
-        this.#debugReport()
-        return {fName: fName, fDB: actualDB, sequenceID: sequenceID}*/
+        return context
     }
 }
 

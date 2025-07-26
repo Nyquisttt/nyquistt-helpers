@@ -9,6 +9,7 @@ const {moduleId, apiFolderName, nyqModPath} = nyqModRef.getApiParameters()
 
 const generalUtils = nyqModRef.generalUtils
 const nyqLog = nyqModRef.nyqLog
+const nyqDebug = nyqModRef.nyqDebug
 const nyqIsDebugging = nyqModRef.nyqIsDebugging
 Handlebars.registerHelper('indentTreeLeaf', function (depth) {
     let strIndent = ""
@@ -62,20 +63,13 @@ const templatesFolder = "nyqTemplates/encounterHelper"
  *******************************************************************************/
 
 class encounterHelper{
-    static #identityString = "[encounterHelper] "
+    static #identityString = "encounterHelper"
     static #debug(...inputList){
-        if(!nyqIsDebugging()) return;
-        for(const eachInput of inputList){
-            if(typeof eachInput == "string"){
-                this.#log(eachInput,"debug")
-            }
-            else{
-                console.log(eachInput)
-            }
-        }
+        //console.log("encounterHelper debug called")
+        nyqDebug(this.#identityString, ...inputList)
     }
     static #log(myString, type=null){ //only strings
-        nyqLog(this.#identityString + myString.toString(), type)
+        nyqLog(myString.toString(), this.#identityString, type)
     }
     static #debugReport(){
         //this.#debug("magicItemDistribution:",this.#magicItemDistribution)
@@ -472,7 +466,9 @@ class encounterHelper{
                         name: eachActor.name,
                         type: eachActor.type, 
                         cr: eachActor.system.details.cr,
-                        details: generalUtils.createCopy(eachActor.system.details),
+                        //details: generalUtils.createCopy(eachActor.system.details),
+                        type: eachActor.system.details.type.value,
+                        subType: eachActor.system.details.type.subtype,
                     }
                 )
             }

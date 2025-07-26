@@ -1,18 +1,11 @@
 import * as nyqGeneralConfig from './nyqGeneralConfig.js';
-import {nyqLog, nyqIsDebugging} from './logging.js';
+import {nyqLog, nyqIsDebugging, nyqDebug} from './logging.js';
 
 const preStr = "[generalUtils] ";
+const identityString = "generalUtils"
 
-function nyqDebug(...params){
-    if(!nyqIsDebugging()) return
-    for(const eachParam of params){
-        if(typeof eachParam === 'string'){
-            nyqLog(eachParam,"debug")
-        }
-        else{
-            console.log(eachParam)
-        }
-    }
+function thisDebug(...params){
+    nyqDebug(identityString, ...params)
 }
 
 function createCopy(myObj){
@@ -73,8 +66,8 @@ function createNestedObjectValue(theObject, keyString, actualValue){	//SYNC all 
 }
 
 function mapUsingMapObject(mapObject,inputDataObject,outputDataObject){
-    nyqDebug("[mapUsingMapObject]")
-    nyqDebug("mapObject",mapObject,"inputDataObject",inputDataObject,"outputDataObject",outputDataObject)
+    thisDebug("[mapUsingMapObject]")
+    thisDebug("mapObject",mapObject,"inputDataObject",inputDataObject,"outputDataObject",outputDataObject)
     /*
     * modifiers: 
     * "nyqPtr."     the remaining part of the string is a pointer to a position into dataObject
@@ -83,7 +76,7 @@ function mapUsingMapObject(mapObject,inputDataObject,outputDataObject){
     */
     let flattenedMap = {}
     flattenObject(flattenedMap, mapObject)
-    nyqDebug("flattenedMap:",flattenedMap)
+    thisDebug("flattenedMap:",flattenedMap)
     for(const [key, value] of Object.entries(flattenedMap)){
         let valuePosition = null;
         let extractedValue = null;
@@ -105,7 +98,7 @@ function mapUsingMapObject(mapObject,inputDataObject,outputDataObject){
         if(extractedValue === null) {
             extractedValue = getNestedObjectValue(inputDataObject,valuePosition)
         }
-        nyqDebug("valuePosition:",valuePosition,"extractedValue",extractedValue)
+        thisDebug("valuePosition:",valuePosition,"extractedValue",extractedValue)
         createNestedObjectValue(outputDataObject,key,extractedValue)
     }
 }
@@ -129,7 +122,7 @@ function getNestedObjectValue(theObject, keyString){	//SYNC all values must be s
 
 function flattenObject(outputObject, inputObject, keyString = ""){
     if(!(outputObject instanceof Object)) {
-        nyqLog(preStr + "provided variable is not an object")
+        nyqLog("provided variable is not an object", identityString)
         //return theObject;
     }
     //if(inputObject){
@@ -148,7 +141,7 @@ function flattenObject(outputObject, inputObject, keyString = ""){
             outputObject[keyString] = inputObject
         }
         else{
-            nyqLog(preStr + "cannot parse the input object for flattening","warn")
+            nyqLog("cannot parse the input object for flattening",identityString,"warn")
         }
     //}
 }
@@ -228,4 +221,22 @@ function checkRequired(theObject,keyChecks){
     return checkOk;
 }
 
-export { createCopy, createNestedObjectValue, getNestedObjectValue, getNestedObjectValueCopy, searchNestedObjectValue, elaborateNestedObjectValue, mergeObjectsByreference, flattenObject, unflattenObject, checkRequired, mapUsingMapObject }
+function UUIDwithDate(){
+    return Date.now()
+}
+
+function UUIDv4(){
+    const baseString = 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'
+    const UUIDversion = 4 
+    const variantFixedBits= 0x8
+    const variantRandomBitsMask= 0x3
+    const newString = baseString.replace(/[xMN]/g, function(myCharacter){
+        const myRandom = Math.random() * 16 | 0
+        const myValue = myCharacter == 'M' ? UUIDversion : myCharacter == 'x' ? myRandom : (myRandom & variantRandomBitsMask) | variantFixedBits ;
+        return myValue.toString(16)
+    })
+    return newString;
+}
+
+
+export { createCopy, createNestedObjectValue, getNestedObjectValue, getNestedObjectValueCopy, searchNestedObjectValue, elaborateNestedObjectValue, mergeObjectsByreference, flattenObject, unflattenObject, checkRequired, mapUsingMapObject, UUIDwithDate, UUIDv4 }

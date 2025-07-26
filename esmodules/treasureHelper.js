@@ -9,6 +9,7 @@ const {moduleId, apiFolderName, nyqModPath} = nyqModRef.getApiParameters()
 
 const generalUtils = nyqModRef.generalUtils
 const nyqLog = nyqModRef.nyqLog
+const nyqDebug = nyqModRef.nyqDebug
 const nyqIsDebugging = nyqModRef.nyqIsDebugging
 /********************************************************************************
  * DONT TOUCH THIS - END
@@ -35,20 +36,12 @@ const rollTablesPath = "dnd2024.treasure.rollables"
  *******************************************************************************/
 
 class treasureHelper{
-    static #identityString = "[treasureHelper] "
+    static #identityString = "treasureHelper"
     static #debug(...inputList){
-        if(!nyqIsDebugging()) return;
-        for(const eachInput of inputList){
-            if(typeof eachInput == "string"){
-                this.#log(eachInput,"debug")
-            }
-            else{
-                console.log(eachInput)
-            }
-        }
+        nyqDebug(this.#identityString, ...inputList)
     }
     static #log(myString, type=null){ //only strings
-        nyqLog(this.#identityString + myString.toString(), type)
+        nyqLog(myString.toString(), this.#identityString, type)
     }
     static async #loadLibraries(){
         for(const eachLib of libUsed){

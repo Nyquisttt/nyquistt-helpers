@@ -1,0 +1,11 @@
+<div class="divPreloadLibraries {{boxDimensionClass}} divBox divWithPadding">
+    <div class="divSinglePreloadFunctionLibrary">
+        <label>File Path</label>
+    </div>
+    {{#each preLoadFunctions}}
+    <div class="divSinglePreloadFunctionLibrary">
+        <input type="text" class="inputFilePath nyqBgDarkslategray textBoxColored" value="{{this}}" data-id="{{@key}}"/>
+        <button type="button" class="btnDeleteLib" data-action="myAction" id="btnDeleteLib"  data-id="{{@key}}"><i class="fa-solid fa-square-minus">Delete</i></button>
+    </div>
+    {{/each}}
+</div>

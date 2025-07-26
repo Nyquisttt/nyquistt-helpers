@@ -77,25 +77,18 @@ const {moduleId, apiFolderName, nyqModPath} = nyqModRef.getApiParameters()
 const generalUtils = nyqModRef.generalUtils
 const nyqLog = nyqModRef.nyqLog
 const nyqIsDebugging = nyqModRef.nyqIsDebugging
+const nyqDebug = nyqModRef.nyqDebug
 /********************************************************************************
  * DONT TOUCH THIS - END
  *******************************************************************************/
 
 class magicItemTracker{
-    static #identityString = "[magicItemTracker] "
+    static #identityString = "magicItemTracker"
     static #debug(...inputList){
-        if(!nyqIsDebugging()) return;
-        for(const eachInput of inputList){
-            if(typeof eachInput == "string"){
-                this.#log(eachInput,"debug")
-            }
-            else{
-                console.log(eachInput)
-            }
-        }
+		nyqDebug(this.#identityString, ...inputList)
     }
     static #log(myString, type=null){ //only strings
-        nyqLog(this.#identityString + myString.toString(), type)
+        nyqLog(myString.toString(),this.#identityString, type)
     }
     static #debugReport(){
         //this.#debug("internal structure",this)
@@ -325,6 +318,7 @@ class magicItemTracker{
 			tierList.push("Tier " + (i+1));
 		}
 		const tableLines = this.nyqTransposeAwardedItem(awardedItem);
+		//console.log(tableLines)
 		const context = {
 			tierList: tierList,
 			tableLines: tableLines,
@@ -394,22 +388,33 @@ class magicItemTracker{
         )
         //const awardedItemList = this.nyqListifyObject(awardedItem,"minLevel","ascending") //now i have an array
 		let tableLines = [];
+		let rollTotals = []
 		const tierKeys = Object.keys(awardedItemList[0]);
 		for(var i = 0; i < tierKeys.length; i++){  //need to transpose the table: the keys of each awardedItemList[i] are the first colun values of the final table
 			let newLine = [];
 			newLine.push(tierKeys[i]);
 			for(var j = 0; j < awardedItemList.length; j++){ //the number of columns is the number of rows of awardedItemList
 				if((tierKeys[i] === "minLevel") || (tierKeys[i] === "maxLevel"))
-					newLine.push(awardedItemList[j][tierKeys[i]] !== null ? awardedItemList[j][tierKeys[i]] : "??");
+					newLine.push(awardedItemList[j][tierKeys[i]] !== null && awardedItemList[j][tierKeys[i]] !== Infinity && awardedItemList[j][tierKeys[i]] !== "Infinity" ? awardedItemList[j][tierKeys[i]] : "??");
 				else{
-					let newString = (awardedItemList[j][tierKeys[i]].value !== null) ? awardedItemList[j][tierKeys[i]].value : "??"
+					let newString = (awardedItemList[j][tierKeys[i]].value !== null && awardedItemList[j][tierKeys[i]].value !== Infinity && awardedItemList[j][tierKeys[i]].value !== "Infinity") ? awardedItemList[j][tierKeys[i]].value : "??"
 					newString += "/";
-					newString += (awardedItemList[j][tierKeys[i]].max !== null) ? awardedItemList[j][tierKeys[i]].max : "??";
+					newString += (awardedItemList[j][tierKeys[i]].max !== null && awardedItemList[j][tierKeys[i]].max !== Infinity && awardedItemList[j][tierKeys[i]].max !== "Infinity") ? awardedItemList[j][tierKeys[i]].max : "??";
 					newLine.push(newString);
+					if(rollTotals[j] === undefined) rollTotals[j] = 0
+					rollTotals[j] += (awardedItemList[j][tierKeys[i]].max !== null && awardedItemList[j][tierKeys[i]].max !== Infinity && awardedItemList[j][tierKeys[i]].max !== "Infinity") ? awardedItemList[j][tierKeys[i]].max : 0
+					rollTotals[j] -= (awardedItemList[j][tierKeys[i]].value !== null && awardedItemList[j][tierKeys[i]].value !== Infinity && awardedItemList[j][tierKeys[i]].value !== "Infinity") ? awardedItemList[j][tierKeys[i]].value : 0
 				}
 			}
 			tableLines.push(newLine);
 		}
+		let newLine = ['Rolls']
+		for(const eachTotal of rollTotals){
+			newLine.push('[[/r 1d' + eachTotal.toString() + ']]')
+		}
+		tableLines.push(newLine)
+		//console.log(rollTotals)
+		//console.log(tableLines)
 		return tableLines;
 	}
 }
@@ -423,20 +428,12 @@ const magicItemTrackerClass = magicItemTracker
 const { ApplicationV2: nyqHelpersAppV2, HandlebarsApplicationMixin: nyqHelpersHandlebars } = foundry.applications.api
 
 class MagicItemTrackerApp extends nyqHelpersHandlebars(nyqHelpersAppV2){
-    #identityString = "[MagicItemTrackerApp] "
+    #identityString = "MagicItemTrackerApp"
     #debug(...inputList){
-        if(!nyqIsDebugging()) return;
-        for(const eachInput of inputList){
-            if(typeof eachInput == "string"){
-                this.#log(eachInput,"debug")
-            }
-            else{
-                console.log(eachInput)
-            }
-        }
+		nyqDebug(this.#identityString, ...inputList)
     }
     #log(myString, type=null){ //only strings
-        nyqLog(this.#identityString + myString.toString(), type)
+        nyqLog(myString.toString(), this.#identityString, type)
     }
     #debugReport(){
         //this.#debug("internal structure",this)

@@ -1,0 +1,13 @@
+<div class="divKnownModulesList {{boxDimensionClass}} divBox">
+    <div class="divSingleKnownModule">
+        <label>Module Name</label><label>File Path</label><label>Name within the API</label>
+    </div>
+    {{#each knownModules}}
+    <div class="divSingleKnownModule">
+        <input class="inputModuleName nyqBgDarkslategray textBoxColored" type="text" value="{{this.moduleName}}" data-id="{{@key}}"/>
+        <input type="text" class="inputFilePath nyqBgDarkslategray textBoxColored" value="{{this.filePath}}" data-id="{{@key}}"/>
+        <input class="inputModuleApiName nyqBgDarkslategray textBoxColored" type="text" value="{{this.moduleApiName}}" data-id="{{@key}}"/>
+        <button type="button" class="btnDeleteModule" data-action="myAction" id="btnDeleteModule"  data-id="{{@key}}"><i class="fa-solid fa-square-minus">Delete</i></button>
+    </div>
+    {{/each}}
+</div>
