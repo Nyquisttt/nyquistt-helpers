@@ -8,14 +8,14 @@
       "flags": {}
     }
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "compatibility": {
     "minimum": "13",
     "verified": "13"
   },
   "url": "https://github.com/Nyquisttt/nyquistt-helpers",
   "manifest": "https://raw.githubusercontent.com/Nyquisttt/nyquistt-helpers/refs/heads/main/module.json",
-  "download": "https://github.com/Nyquisttt/nyquistt-helpers/archive/refs/tags/v1.0.1.zip",
+  "download": "https://github.com/Nyquisttt/nyquistt-helpers/archive/refs/tags/v1.0.2.zip",
   "esmodules": [
     "esmodules/nyqMain.js"
   ],
