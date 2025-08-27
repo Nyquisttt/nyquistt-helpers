@@ -467,11 +467,11 @@ class nyqTables{
         else return null
     }
 
-    static getTableOfType(typeName, myObj = null, pathString = ""){
+    static getTableOfType(typeName = "*", myObj = null, pathString = ""){
         if(myObj === null) myObj = this.#tablesRoot
         let returnList = []
-        if(myObj.tableType !== undefined){
-            if(myObj.tableType.includes(typeName)) returnList.push(pathString)
+        if(myObj.tableType !== undefined){//this is a table
+            if(typeName === "*" || myObj.tableType.includes(typeName)) returnList.push(pathString)
         }
         for(const [key,value] of Object.entries(myObj)){
             if((key !== "fileName")&&(key !== "filePath")&&(key !== "tableType")&&(key !== "cache")){

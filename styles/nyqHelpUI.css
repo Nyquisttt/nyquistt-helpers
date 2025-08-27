@@ -1,0 +1,116 @@
+/* height property*/
+@property --nyq-ui-height {
+  syntax: "<dimension>";
+  initial-value: 100px;
+  inherits: false;
+}
+/* border color property */
+@property --nyq-ui-border-color {
+    syntax: "<color>";
+    initial-value: blue;
+    inherits: false;
+}
+/* height values */
+.nyqHeight100{
+    --nyq-ui-height: 100px;
+}
+.nyqHeight90{
+    --nyq-ui-height: 90px;
+}
+.nyqBordered{
+    border-style: solid;
+    border-radius: 5px;
+    border-color: var(--nyq-ui-border-color);
+}
+/* color values */
+.nyqBorderColorInherit{
+    --nyq-ui-border-color: inherit;
+}
+.nyqBorderColorBlue{
+    --nyq-ui-border-color: blue;
+}
+
+.chainContainer{
+    /*height: 100px;*/
+    height: var(--nyq-ui-height);
+}
+.divChainBox{
+    display: inline-flex;
+    /*border-style: solid;*/
+    /*border-radius: 5px;*/
+    /*border-color: blue;*/
+    /*height: 90px;*/
+    height: var(--nyq-ui-height);
+    align-items : center;
+}
+.divChainBox[data-selected='true']{
+    background-color: cadetblue;
+}
+.chainStepDeleteContainer{
+    height: inherit;
+    vertical-align: top;
+}
+.addButtonHover{
+    display: none;
+}
+.divAddStep:hover .addButtonHover {display: block;}
+.divAddStep:hover{ background-color: blueviolet;}
+.pAddStep:hover{ background-color: cadetblue;}
+.stepStatus{
+    display: grid;
+    grid-template-columns: 80px 80px;
+}
+.stepStatusBox{
+    border-style: solid;
+    border-radius: 5px;
+    border-color: red;
+}
+.stepStatusBox[data-showMode='true']{
+    border-color: green;
+}
+.divUItableSequenceHeader{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.tableSequenceHeaderButtons{
+    display: grid;
+    grid-template-columns: 16% 16% 16% 16% 16% 16%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.tableSequenceHeaderButton[data-enabled="true"]{
+    background-color: cadetblue;
+}
+.tableSequenceHeaderStatusButton[data-enabled="false"]{
+    opacity: 0.8;
+    background-size: 10px 10px;
+    background-image: repeating-linear-gradient(45deg, brown 0, brown 1px, var(--button-background-color) 0, var(--button-background-color) 50%)
+}
+.divSingleUsedLib{
+    display: grid;
+    grid-template-columns: 70% 30%;
+}
+.divSingleUsedFilterFile{
+    display: grid;
+    grid-template-columns: 70% 30%;
+}
+.tableSequenceHeaderStatus{
+    display: grid;
+    grid-template-columns: 40% 30% 30%;
+}
+.tableSequenceHeaderStatusButton{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.initTableConfigParamsList{
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+.initTableConfigTable{
+    overflow-x: scroll;
+    overflow-y: scroll;
+    height: 400px;
+}
+.initTableConfigTable .tableSequenceTableValues{
+    vertical-align: top;
+}

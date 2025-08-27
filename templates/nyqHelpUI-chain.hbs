@@ -1,0 +1,43 @@
+<div class="divUIchain"{{#if hideMe}} data-hide='true'{{/if}}>
+    Chain of Operation Steps
+    <div class="chainContainer {{chainContainerHeight}}">
+        {{#each steps}}
+            <div class="divAddStep divChainBox {{../chainBoxHeight}}">
+                <div class="addButton">
+                    {{{../symbols.add}}}
+                </div>
+                <div class="addButtonHover">
+                    {{#each ../possibleTypes}}
+                        <p class="pAddStep" data-action="actionHandler" data-type="{{this.name}}" data-position="{{../this.index}}">
+                            {{this.label}}
+                        </p>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="divChainStep divChainBox nyqBordered nyqBorderColorBlue {{../chainBoxHeight}}" 
+                data-action="actionHandler" data-readyToGo="{{this.readyToGo}}" data-executed="{{this.executed}}" 
+                data-index="{{this.index}}" data-selected="{{this.selected}}">
+                <div class="chainStepDetails">
+                    {{{this.symbol}}}
+                </div>
+                <div class="chainStepDeleteContainer">
+                    <div class="chainStepDelete" data-index="{{this.index}}" data-action="actionHandler">
+                        {{{../symbols.delete}}}
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+        <div class="divAddStep divChainBox {{chainBoxHeight}}">
+            <div class="addButton">
+                {{{symbols.add}}}
+            </div>
+            <div class="addButtonHover">
+                {{#each possibleTypes}}
+                    <p class="pAddStep" data-action="actionHandler" data-type="{{this.name}}" data-position="-1">
+                        {{this.label}}
+                    </p>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

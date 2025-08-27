@@ -1,0 +1,42 @@
+<div class="divUItableSequenceInitTableConfig"{{#if hideMe}} data-hide='true'{{/if}}>
+    <div class="initTableConfigParams">
+        <div class="initTableConfigParamsStored">
+            <label>
+                Table is stored
+                <input type="checkbox" id="tableStored" name="tableStored" value="tableStored"{{#if tableStored}} checked{{/if}}>
+            </label>
+        </div>
+        <div class="initTableConfigParamsList">
+            <label>
+                Choose Table
+            </label>
+            <select name="storedTableList" id="storedTableList">
+                {{#each storedTableList}}
+                <option value="{{this.path}}"{{#if this.selected}} selected="true"{{/if}}>{{this.path}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <button type="button" data-action="{{actionFunction}}" class="saveInitTableConfig">
+            <i class="fa-solid fa-floppy-disk"></i>Save
+        </button>
+    </div>
+    <div class="initTableConfigTable">
+        Init Table Preview
+        <table>
+            {{#each initTablePreview}}
+                <tr class="tableSequenceTableKeys">
+                    <td>Table Row</td>
+                    {{#each this}}
+                        <td>{{@key}}</td>
+                    {{/each}}
+                </tr>
+                <tr class="tableSequenceTableValues">
+                    <td>{{@key}}</td>
+                    {{#each this}}
+                        <td>{{this}}</td>
+                    {{/each}}
+                </tr>
+            {{/each}}
+        </table>
+    </div>
+</div>

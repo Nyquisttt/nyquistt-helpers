@@ -1,0 +1,16 @@
+<div class="divUItableSequenceUsedLibs"{{#if hideMe}} data-hide='true'{{/if}}>
+    <div class="divUsedLibsList {{boxDimensionClass}} divBox divWithPadding">
+        <div class="divSingleUsedLib">
+            <label>File Path</label>
+        </div>
+        {{#each usedLibs}}
+        <div class="divSingleUsedLib">
+            <input type="text" class="inputFilePath nyqBgDarkslategray textBoxColored" value="{{this}}" data-id="{{@key}}"/>
+            <button type="button" class="btnDeleteLib" data-action="actionHandler" id="btnDeleteLib"  data-id="{{@key}}" data-filePath="{{this}}"><i class="fa-solid fa-square-minus">Delete</i></button>
+        </div>
+        {{/each}}
+    </div>
+    <div class="divFilePeeker">
+        <button type="button" class="btnPickFile" data-action="actionHandler" id="btnPickFileUsedLibs"><i class="fa-solid fa-folder">Add Anothier Library File</i></button>
+    </div>
+</div>

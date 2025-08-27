@@ -1,0 +1,16 @@
+<div class="divUItableSequenceUsedFilterFiles"{{#if hideMe}} data-hide='true'{{/if}}>
+    <div class="divUsedFilterFileList {{boxDimensionClass}} divBox divWithPadding">
+        <div class="divSingleUsedFilterFile">
+            <label>File Path</label>
+        </div>
+        {{#each usedFilterFiles}}
+        <div class="divSingleUsedFilterFile">
+            <input type="text" class="inputFilePath nyqBgDarkslategray textBoxColored" value="{{this}}" data-id="{{@key}}"/>
+            <button type="button" class="btnDeleteFilterFile" data-action="actionHandler" id="btnDeleteFilterFile"  data-id="{{@key}}" data-filePath="{{this}}"><i class="fa-solid fa-square-minus">Delete</i></button>
+        </div>
+        {{/each}}
+    </div>
+    <div class="divFilePeeker">
+        <button type="button" class="btnPickFile" data-action="actionHandler" id="btnPickFileUsedFilterFile"><i class="fa-solid fa-folder">Add Anothier Filter File</i></button>
+    </div>
+</div>

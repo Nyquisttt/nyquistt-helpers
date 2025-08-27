@@ -20,12 +20,9 @@
     "esmodules/nyqMain.js"
   ],
   "styles": [
-    {
-      "src": "styles/app-choose.css"
-    },
-    {
-      "src": "styles/settings-menu.css"
-    }
+    {"src": "styles/app-choose.css"},
+    {"src": "styles/settings-menu.css"},
+    {"src": "styles/nyqHelpUI.css"}
   ],
   "languages": [
     {

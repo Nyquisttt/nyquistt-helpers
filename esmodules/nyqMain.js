@@ -14,6 +14,7 @@ import { nyqSequencer } from './nyqSequencer.js'
 import * as fileUtils from './fileUtils.js'
 import { getApiParameters, nyqModPath, setVersion } from './nyqGeneralConfig.js'
 import * as generalUtils from './generalUtils.js'
+import * as nyqHelp from './nyqHelp.js'
 
 Hooks.on("ready", async function() {
 	/**
@@ -42,5 +43,6 @@ Hooks.on("ready", async function() {
 	apiUtils.addToApi('generalUtils',generalUtils)
 	apiUtils.addToApi('nyqTables', nyqTables);
 	apiUtils.addToApi('nyqSequencer', nyqSequencer)
+	apiUtils.addToApi('showUI',nyqHelp.showUI)
 	nyqLogging.nyqLog("[NYQUISTT HELPERS]: module initialized.","main","alert");
 });

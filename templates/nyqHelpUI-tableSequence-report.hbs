@@ -1,0 +1,45 @@
+<div class="divUItableSequenceReport"{{#if hideMe}} data-hide='true'{{/if}}>
+    This is Report
+    <div class="stepStatus">
+        <div class="stepStatusBox" data-showMode="{{readyToGo}}">Ready</div>
+        <div class="stepStatusBox" data-showMode="{{executed}}">Executed</div>
+    </div>
+    <details>
+        <summary>input data</summary>
+        <details>
+            <summary>Used Libs</summary>
+            <div class="divUsedLibs">
+                {{#each usedLibs}}
+                <div class="singleUsedLib">{{this}}</div>
+                {{/each}}
+                <button type="button" class="btnAddUsedLib" data-action="actionHandler" id="btnAddUsedLib">
+                    <i class="fa-solid fa-folder">Add</i>
+                </button>
+            </div>
+        </details>
+        <details>
+            <summary>Filter Files</summary>
+            <div class="divUsedFilterFiles">
+                {{#each usedFilterFiles}}
+                <div class="singleUsedFilterFile">{{this}}</div>
+                {{/each}}
+                <button type="button" class="btnAddUsedFilterFile" data-action="actionHandler" id="btnAddUsedFilterFile">
+                    <i class="fa-solid fa-folder">Add</i>
+                </button>
+            </div>
+        </details>
+        <details>
+            <summary>Init Table</summary>
+            <label>Table Name<input type="text" id="initTableName" value="{{initTableName}}"/></label>
+            <label>Stored<input type="checkbox"{{#if initTableStored}} checked{{/if}}/></label>
+        </details>
+        <details>
+            <summary>Operation List</summary>
+            <div class="divOperationList">
+                {{#each operationList}}
+                <div class="singleOperationList">{{this}}</div>
+                {{/each}}
+            </div>
+        </details>
+    </details>
+</div>

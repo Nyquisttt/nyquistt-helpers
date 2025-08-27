@@ -1,0 +1,20 @@
+<div class="divUItableSequenceHeader"{{#if hideMe}} data-hide='true'{{/if}}>
+    <div class="tableSequenceHeaderStatus">
+        <p>step type: {{stepType}}</p>
+        <button type="button" class="tableSequenceHeaderStatusButton" data-action="{{actionFunction}}" 
+        id="preload" data-enabled="{{needsPreload}}"{{#unless needsPreload}} disabled{{/unless}}>
+            <i class="fa-regular fa-circle-right"></i>Preload
+        </button>
+        <button type="button" class="tableSequenceHeaderStatusButton" data-action="{{actionFunction}}" 
+        id="run" data-enabled="{{runnable}}"{{#unless runnable}} disabled{{/unless}}>
+            <i class="fa-regular fa-circle-right"></i>Run
+        </button>
+    </div>
+    <div class="tableSequenceHeaderButtons">
+        {{#each buttonList}}
+        <button class="{{this.class}}" data-action="{{this.action}}" type="button" id="{{this.id}}" 
+        data-tableSubform="{{this.tableSubform}}" data-enabled="{{this.dataEnabled}}">
+        <i class="{{this.faClass}}">{{this.text}}</i></button> 
+        {{/each}}
+    </div>
+</div>
